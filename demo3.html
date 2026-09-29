@@ -1,0 +1,2211 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AAFIYA MONEY TRANSFER & JAN SEVA KENDRA - Enterprise Suite v13.0</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- HTML2Canvas for Receipts (with cross-origin enabled) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Chart.js for Pro Analytics Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts Inter & Fira Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * { box-sizing: border-box; }
+        html, body { width: 100%; max-width: 100%; min-height: 100vh; margin: 0; padding: 0; overflow-x: hidden; transition: background-color 0.25s ease, color 0.25s ease; -webkit-text-size-adjust: 100%; }
+
+        /* DARK THEME */
+        html.dark body { background-color: #070b14; color: #f8fafc; }
+        html.dark .header-bar { background-color: #0b1120; border-color: #1e293b; }
+        html.dark .flat-panel { background-color: #0f172a; border-color: #1e293b; color: #f8fafc; }
+        html.dark .sub-card { background-color: #090e1a; border-color: #1e293b; color: #f1f5f9; }
+        html.dark .clean-input { background-color: #050811; border-color: #334155; color: #ffffff; }
+        html.dark .clean-input:focus { background-color: #02040a; border-color: #38bdf8; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.35); }
+        html.dark .highlight-clock { background: #050b18; border-color: #00f2ff; box-shadow: 0 0 14px rgba(0, 242, 255, 0.35); color: #00f2ff; }
+        html.dark .clean-label { color: #cbd5e1; }
+        html.dark .table-head-row { background-color: #050914; color: #cbd5e1; border-color: #1e293b; }
+        html.dark .input-card-wrap { background-color: #0b1324; border: 1.5px solid #1e293b; }
+
+        /* LIGHT THEME */
+        html.light body { background-color: #f1f5f9; color: #0f172a; }
+        html.light .header-bar { background-color: #ffffff; border-color: #cbd5e1; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04); }
+        html.light .flat-panel { background-color: #ffffff; border-color: #94a3b8; color: #0f172a; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06); }
+        html.light .sub-card { background-color: #f8fafc; border-color: #cbd5e1; color: #0f172a; }
+        html.light .input-card-wrap { background-color: #ffffff !important; border: 1.5px solid #94a3b8 !important; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03); }
+        html.light .clean-input { background-color: #ffffff !important; border-color: #64748b !important; color: #020617 !important; font-weight: 800; }
+        html.light .clean-input:focus { background-color: #ffffff !important; border-color: #0284c7 !important; box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2); color: #020617 !important; }
+        html.light .highlight-clock { background: #e0f2fe; border-color: #38bdf8; box-shadow: 0 2px 8px rgba(56, 189, 248, 0.2); color: #0369a1 !important; }
+        html.light .clean-label { color: #1e293b !important; font-weight: 900; }
+        html.light .table-head-row { background-color: #cbd5e1; color: #0f172a; border-color: #94a3b8; font-weight: 900; }
+
+        /* PASTEL BOXES */
+        html.light .box-blue-pastel { background-color: #eff6ff !important; border-color: #93c5fd !important; color: #1e3a8a !important; }
+        html.light .box-cyan-pastel { background-color: #ecfeff !important; border-color: #67e8f9 !important; color: #164e63 !important; }
+        html.light .box-purple-pastel { background-color: #faf5ff !important; border-color: #d8b4fe !important; color: #3b0764 !important; }
+        html.light .box-emerald-pastel { background-color: #f0fdf4 !important; border-color: #86efac !important; color: #064e3b !important; }
+        html.light .box-rose-pastel { background-color: #fff1f2 !important; border-color: #fda4af !important; color: #4c0519 !important; }
+        html.light .box-amber-pastel { background-color: #fffbeb !important; border-color: #fde047 !important; color: #78350f !important; }
+
+        .uppercase-input { text-transform: uppercase !important; }
+        .flat-panel { border-width: 1.5px; border-radius: 0.85rem; }
+        .input-card-wrap { border-radius: 0.65rem; padding: 0.4rem 0.5rem; transition: all 0.2s ease; width: 100%; min-width: 0; }
+        .clean-input { font-weight: 800; text-align: center; border-radius: 0.45rem; width: 100%; min-width: 0; padding: 0.4rem 0.5rem; font-size: 0.9rem; outline: none; border-width: 1.5px; }
+        .clean-label { display: block; text-align: center; font-size: 0.75rem; letter-spacing: 0.02em; margin-bottom: 0.2rem; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .btn-clean { transition: all 0.15s ease; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; text-align: center; border-radius: 0.55rem; cursor: pointer; white-space: nowrap; }
+        .btn-clean:active { transform: scale(0.97); }
+        .highlight-clock { border-width: 1.5px; padding: 0.3rem 0.7rem; border-radius: 0.6rem; }
+        .calendar-trigger-btn { border: 1.5px solid #0284c7; transition: all 0.15s ease; }
+
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 9999px; }
+
+        @media (max-width: 640px) {
+            .btn-clean { padding-left: 0.5rem; padding-right: 0.5rem; font-size: 0.7rem; }
+            .header-title-text { font-size: 1.1rem !important; }
+        }
+
+        /* HARDCODED STANDARD FONTS & PERFECT HD RECEIPT BOX FOR BOTH PRINT & CANVAS CAPTURE */
+        .receipt-printable-box {
+            font-family: Arial, Helvetica, sans-serif !important;
+            box-sizing: border-box !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            border: 2px solid #003399 !important;
+            border-radius: 6px !important;
+            padding: 8px 12px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            margin: 0 auto !important;
+        }
+
+        .receipt-printable-box * {
+            font-family: Arial, Helvetica, sans-serif !important;
+            color: #000000 !important;
+            box-sizing: border-box !important;
+        }
+
+        /* PRINT MEDIA STYLES - A4 PORTRAIT EXACT PRINT FIT */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin-top: 0.8cm !important;
+                margin-left: 1cm !important;
+                margin-right: 1cm !important;
+                margin-bottom: 0.5cm !important;
+            }
+            body { background: #ffffff !important; color: #000000 !important; }
+            body * { visibility: hidden !important; }
+            .no-print { display: none !important; }
+            #print-receipt-modal, #print-receipt-modal * { visibility: visible !important; }
+            #print-receipt-modal { 
+                position: absolute !important; 
+                left: 0 !important; 
+                top: 0 !important; 
+                width: 100% !important; 
+                height: auto !important; 
+                background: #ffffff !important; 
+                display: block !important;
+                z-index: 99999 !important; 
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .receipt-printable-box { 
+                box-shadow: none !important; 
+                border: 2px solid #000000 !important; 
+                width: 100% !important; 
+                height: 6.5cm !important; 
+                max-height: 6.5cm !important;
+                margin: 0 auto !important; 
+                padding: 8px 10px !important; 
+                page-break-inside: avoid !important; 
+                overflow: hidden !important;
+            }
+            .receipt-btn-group { display: none !important; }
+        }
+    </style>
+</head>
+<body id="app-body" class="min-h-screen flex flex-col antialiased">
+
+    <!-- SECURITY LOCK SCREEN -->
+    <div id="app-lock-screen" class="fixed inset-0 bg-slate-950/98 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="flat-panel p-6 sm:p-8 border border-cyan-500/40 w-full max-w-sm text-center space-y-4 shadow-2xl">
+            <div class="h-14 w-14 mx-auto rounded-xl bg-cyan-950 border border-cyan-500/40 flex items-center justify-center text-2xl">🔒</div>
+            <h2 class="text-base font-black uppercase tracking-wider text-center" id="lock-title">AAFIYA ENTERPRISE LOCKED</h2>
+            <p id="lock-instruction-text" class="text-xs text-slate-400 text-center">Enter security password to unlock (Day-Month-Year format PIN or default 1234)</p>
+            <input type="password" id="unlock-password-input" maxlength="12" placeholder="Password" onkeydown="handleLockPasswordKey(event)" class="clean-input w-full py-2.5 text-xl font-mono text-cyan-500 tracking-widest font-black">
+            <p id="unlock-error" class="text-xs text-rose-500 font-bold hidden text-center">❌ Incorrect password! Please enter correct daily password.</p>
+            <p id="welcome-success-msg" class="text-xs text-emerald-500 font-black hidden animate-pulse text-center">🎉 Unlocking software...</p>
+            <div class="pt-2"><button onclick="verifyAppUnlock()" class="btn-clean w-full bg-cyan-600 hover:bg-cyan-500 text-white font-black py-2.5 text-sm shadow-md">Unlock</button></div>
+        </div>
+    </div>
+
+    <!-- HEADER BAR -->
+    <header class="header-bar sticky top-0 z-40 border-b px-2 sm:px-4 py-2.5 no-print w-full">
+        <div class="w-full flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5 flex-shrink-0">
+                <div class="h-10 w-10 rounded-2xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center font-black text-xl text-white flex-shrink-0 shadow-lg">⚡</div>
+                <div class="flex flex-col justify-center">
+                    <span class="text-lg sm:text-xl font-black tracking-tight uppercase text-cyan-600 dark:text-cyan-400 header-title-text leading-tight">AAFIYA MONEY TRANSFER</span>
+                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 leading-tight">📞 7503468897 • JAN SEVA KENDRA</span>
+                </div>
+            </div>
+
+            <!-- NAVIGATION BUTTONS -->
+            <div class="flex items-center gap-1.5 flex-wrap flex-shrink-0 py-1">
+                <button onclick="toggleShopAttendance()" id="attendance-nav-btn" class="btn-clean bg-emerald-700 hover:bg-emerald-600 text-white px-2.5 py-1 text-xs shadow font-black">🟢 Attendance</button>
+                <button onclick="openWalletModal()" class="btn-clean bg-blue-600 hover:bg-blue-500 text-white px-2.5 py-1 text-xs shadow font-black">🏦 Wallet</button>
+                <button onclick="openInventoryModal()" class="btn-clean bg-purple-600 hover:bg-purple-500 text-white px-2.5 py-1 text-xs shadow font-black">📦 Stock</button>
+                
+                <div class="relative inline-block text-left">
+                    <button onclick="toggleReportsDropdown()" id="reports-menu-btn" class="btn-clean bg-violet-700 hover:bg-violet-600 text-white px-2.5 py-1 text-xs shadow font-black flex items-center gap-1">
+                        <span>📊 Reports & Menu</span>
+                        <span>▼</span>
+                    </button>
+                    <div id="reports-dropdown-panel" class="hidden absolute right-0 mt-1 w-48 flat-panel shadow-2xl z-50 py-1 border divide-y divide-slate-200 dark:divide-slate-800">
+                        <button onclick="openAnalyticsModal(); closeReportsDropdown();" class="w-full text-left px-3 py-2 text-xs font-bold hover:bg-violet-500 hover:text-white flex items-center gap-2">📊 Analytics Dashboard</button>
+                        <button onclick="openCashTallyModal(); closeReportsDropdown();" class="w-full text-left px-3 py-2 text-xs font-bold hover:bg-emerald-500 hover:text-white flex items-center gap-2">💵 Cash Tally (Galla)</button>
+                        <button onclick="openExpensesModal(); closeReportsDropdown();" class="w-full text-left px-3 py-2 text-xs font-bold hover:bg-amber-500 hover:text-white flex items-center gap-2">💸 Expenses Manager</button>
+                    </div>
+                </div>
+
+                <button onclick="openPendingTasksModal()" class="btn-clean bg-rose-600 hover:bg-rose-500 text-white px-2.5 py-1 text-xs shadow flex items-center gap-1 font-bold">
+                    <span>⏳ Pending</span>
+                    <span id="pending-work-badge" class="px-1 py-0.2 bg-slate-950 text-rose-300 rounded-full font-mono text-[9px] font-black border border-rose-400">0</span>
+                </button>
+                <button onclick="toggleShopCalculator()" class="btn-clean bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 px-2.5 py-1 text-xs shadow font-black">🧮 Calc</button>
+                <button onclick="openCustomerDuesModal()" class="btn-clean bg-orange-600 hover:bg-orange-500 text-white px-2.5 py-1 text-xs shadow font-black">📙 Khata</button>
+                <button onclick="openSettingsModal()" class="btn-clean bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-600 px-2.5 py-1 text-xs shadow font-black">⚙️ Settings</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SHOP CALCULATOR -->
+    <div id="shop-calculator-panel" class="hidden fixed top-16 right-4 z-50 flat-panel p-3 shadow-2xl w-72 max-w-full">
+        <div class="flex justify-between items-center mb-2 pb-1.5 border-b border-slate-700">
+            <h4 class="text-xs font-black text-indigo-500 uppercase flex items-center gap-1">🧮 Calculator</h4>
+            <button onclick="toggleShopCalculator()" class="text-slate-400 hover:text-white font-bold text-sm px-2 py-0.5 rounded bg-slate-800">&times;</button>
+        </div>
+        <div class="space-y-2">
+            <div id="calc-history-tape" class="w-full sub-card h-12 rounded-lg p-1.5 text-right font-mono text-xs overflow-y-auto space-y-0.5 border">
+                <span class="text-slate-400 italic text-[10px]">Keyboard Typing Enabled...</span>
+            </div>
+            <input type="text" id="calc-screen" onkeydown="handleCalcKeyboardInput(event)" class="clean-input w-full text-right text-xl font-mono font-black text-cyan-600 dark:text-cyan-400 py-1.5" value="0">
+            <div class="grid grid-cols-4 gap-1.5 text-xs font-bold pt-1">
+                <button onclick="calcClear()" class="btn-clean bg-rose-600 text-white py-2 font-black">AC</button>
+                <button onclick="calcBackspace()" class="btn-clean bg-amber-600 text-white py-2 font-black">⌫</button>
+                <button onclick="calcPercentage()" class="btn-clean sub-card py-2 border font-bold">%</button>
+                <button onclick="calcAppend('/')" class="btn-clean sub-card py-2 border font-bold">÷</button>
+                <button onclick="calcAppend('7')" class="btn-clean sub-card py-2 font-mono border font-bold">7</button>
+                <button onclick="calcAppend('8')" class="btn-clean sub-card py-2 font-mono border font-bold">8</button>
+                <button onclick="calcAppend('9')" class="btn-clean sub-card py-2 font-mono border font-bold">9</button>
+                <button onclick="calcAppend('*')" class="btn-clean sub-card py-2 border font-bold">×</button>
+                <button onclick="calcAppend('4')" class="btn-clean sub-card py-2 font-mono border font-bold">4</button>
+                <button onclick="calcAppend('5')" class="btn-clean sub-card py-2 font-mono border font-bold">5</button>
+                <button onclick="calcAppend('6')" class="btn-clean sub-card py-2 font-mono border font-bold">6</button>
+                <button onclick="calcAppend('-')" class="btn-clean sub-card py-2 border font-bold">-</button>
+                <button onclick="calcAppend('1')" class="btn-clean sub-card py-2 font-mono border font-bold">1</button>
+                <button onclick="calcAppend('2')" class="btn-clean sub-card py-2 font-mono border font-bold">2</button>
+                <button onclick="calcAppend('3')" class="btn-clean sub-card py-2 font-mono border font-bold">3</button>
+                <button onclick="calcAppend('+')" class="btn-clean sub-card py-2 border font-bold">+</button>
+                <button onclick="calcAppend('0')" class="col-span-2 btn-clean sub-card py-2 font-mono border font-bold">0</button>
+                <button onclick="calcAppend('.')" class="btn-clean sub-card py-2 font-mono border font-bold">.</button>
+                <button onclick="calcCompute()" class="btn-clean bg-cyan-600 text-white py-2 font-black">=</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP BODY -->
+    <main class="w-full max-w-full flex-1 p-2 sm:p-4 space-y-3 no-print overflow-x-hidden">
+        <!-- MODE FILTER HEADER & CALENDAR TRIGGER -->
+        <div class="flat-panel p-2.5 flex flex-col xl:flex-row items-center justify-between gap-2.5 w-full">
+            <div class="flex items-center gap-2.5 w-full xl:w-auto justify-center xl:justify-start flex-wrap">
+                <button type="button" onclick="openDatePickerCalendar()" class="btn-clean calendar-trigger-btn px-3.5 py-1.5 text-xs font-black text-cyan-600 dark:text-cyan-400 flex items-center gap-1.5 rounded-lg bg-cyan-50 dark:bg-cyan-950/20">
+                    <span class="text-sm">📅</span>
+                    <span id="current-ledger-view-label">Select Date</span>
+                </button>
+                <input type="date" id="ledger-date-picker" class="opacity-0 w-0 h-0 overflow-hidden absolute" onchange="onDateSelectedFromPicker(this.value)">
+                
+                <div id="header-inline-clock" class="highlight-clock flex items-center gap-1.5 font-bold text-xs bg-cyan-100/50 dark:bg-slate-900 px-3 py-1.5 rounded-lg border">
+                    <span>🕒</span>
+                    <span id="inline-clock-text" class="font-mono text-xs font-black tracking-wide">00:00:00 AM</span>
+                </div>
+
+                <button onclick="openQuickIncomeModal()" class="btn-clean bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 text-xs shadow font-black flex items-center gap-1">
+                    <span>⚡ QUICK ENTRY</span>
+                </button>
+            </div>
+
+            <!-- VIEW MODE PRESETS (DAILY, WEEKLY, MONTHLY) -->
+            <div class="flex flex-wrap items-center gap-1.5 w-full xl:w-auto justify-center xl:justify-end">
+                <button id="btn-mode-today" onclick="setQuickDate('today')" class="btn-clean bg-cyan-600 text-white text-xs px-3 py-1.5 border font-black shadow">Daily View</button>
+                <button id="btn-mode-yesterday" onclick="setQuickDate('yesterday')" class="btn-clean sub-card text-xs px-2.5 py-1.5 border font-bold">Yesterday</button>
+                <button id="btn-mode-weekly" onclick="setQuickDate('weekly')" class="btn-clean sub-card text-indigo-500 text-xs px-3 py-1.5 border font-black">Weekly P&L</button>
+                <button id="btn-mode-monthly" onclick="setQuickDate('month')" class="btn-clean sub-card text-emerald-500 text-xs px-3 py-1.5 border font-black">Monthly P&L</button>
+                <button onclick="exportCSV()" class="btn-clean sub-card text-emerald-600 dark:text-emerald-400 border text-xs px-2.5 py-1.5 font-bold">Excel</button>
+            </div>
+        </div>
+
+        <!-- METRICS CARDS WITH CLICK TO DETAILED STATS & GRAPH -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 w-full">
+            <div onclick="openMetricDetailModal('visits')" class="flat-panel p-2.5 box-blue-pastel border-t-4 border-t-blue-500 text-center flex flex-col justify-between cursor-pointer hover:scale-[1.02] transition-transform">
+                <span class="text-[10px] font-black uppercase truncate">Customer Visits 📊</span>
+                <div id="metric-customer-visits" class="text-xl sm:text-2xl font-black font-mono">0</div>
+                <span id="metric-customer-sub" class="text-[9px] font-bold truncate">Click for Stats</span>
+            </div>
+            <div onclick="openMetricDetailModal('turnover')" class="flat-panel p-2.5 box-cyan-pastel border-t-4 border-t-cyan-500 text-center flex flex-col justify-between cursor-pointer hover:scale-[1.02] transition-transform">
+                <span id="metric-turnover-label" class="text-[10px] font-black uppercase truncate">Total Turnover 📈</span>
+                <div id="metric-total-turnover" class="text-lg sm:text-xl font-black font-mono truncate">₹0.00</div>
+                <span class="text-[9px] font-bold truncate">Click for Stats</span>
+            </div>
+            <div onclick="openMetricDetailModal('fees')" class="flat-panel p-2.5 box-purple-pastel border-t-4 border-t-purple-500 text-center flex flex-col justify-between cursor-pointer hover:scale-[1.02] transition-transform">
+                <span class="text-[10px] font-black uppercase truncate">Portal Fees 🏛️</span>
+                <div id="metric-govt-fees" class="text-lg sm:text-xl font-black font-mono truncate">₹0.00</div>
+                <span class="text-[9px] font-bold truncate">Click for Stats</span>
+            </div>
+            <div onclick="openMetricDetailModal('profit')" class="flat-panel p-2.5 box-emerald-pastel border-t-4 border-t-emerald-500 text-center flex flex-col justify-between cursor-pointer hover:scale-[1.02] transition-transform">
+                <span id="metric-profit-label" class="text-[10px] font-black uppercase truncate">Net Profit 💰</span>
+                <div id="metric-net-profit" class="text-lg sm:text-xl font-black font-mono truncate">₹0.00</div>
+                <span id="metric-profit-pct" class="text-[9px] font-black truncate">0% • Click Graph</span>
+            </div>
+            <div onclick="openExpensesModal()" class="flat-panel p-2.5 box-rose-pastel border-t-4 border-t-rose-500 cursor-pointer text-center flex flex-col justify-between hover:scale-[1.02] transition-transform">
+                <span class="text-[10px] font-black uppercase truncate">Total Expenses 💸</span>
+                <div id="metric-total-expenses" class="text-lg sm:text-xl font-black font-mono truncate">₹0.00</div>
+                <span class="text-[9px] font-bold underline truncate">Expenses Ledger</span>
+            </div>
+            <div onclick="openMetricDetailModal('cash_upi')" class="flat-panel p-2.5 box-amber-pastel border-t-4 border-t-indigo-500 text-center flex flex-col justify-between col-span-2 sm:col-span-1 cursor-pointer hover:scale-[1.02] transition-transform">
+                <span class="text-[10px] font-black uppercase truncate">Cash & UPI 💵</span>
+                <div class="flex justify-between my-0.5 gap-1">
+                    <div class="flex-1 truncate"><span class="text-[8px] block font-bold">Cash</span><span id="metric-cash-hand" class="text-xs sm:text-sm font-black font-mono truncate block">₹0</span></div>
+                    <div class="w-[1px] bg-slate-300 dark:bg-slate-700"></div>
+                    <div class="flex-1 truncate"><span class="text-[8px] block font-bold">UPI</span><span id="metric-digital-upi" class="text-xs sm:text-sm font-black font-mono truncate block">₹0</span></div>
+                </div>
+                <span class="text-[9px] font-bold truncate">Click Breakdown</span>
+            </div>
+        </div>
+
+        <!-- TRANSACTION ENTRY FORM -->
+        <section class="flat-panel p-3 sm:p-4 w-full">
+            <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-200 dark:border-slate-800 flex-wrap gap-2">
+                <h2 id="form-section-heading" class="text-xs sm:text-sm font-black text-cyan-600 dark:text-cyan-400 uppercase tracking-wider"><span>➕</span> Add New Transaction</h2>
+                <div id="loss-warning-banner" class="hidden bg-rose-50 dark:bg-rose-950 border border-rose-300 dark:border-rose-500 px-2.5 py-0.5 rounded text-[11px] font-bold text-rose-700 dark:text-rose-300">⚠️ Portal fees are higher than total charge!</div>
+            </div>
+
+            <!-- CUSTOMER PAST DUES ALERT -->
+            <div id="customer-past-dues-alert" class="hidden mb-3 p-2.5 bg-amber-50 dark:bg-amber-950 border border-amber-300 dark:border-amber-500 rounded-xl">
+                <div class="flex justify-between items-center text-xs font-bold text-slate-800 dark:text-white flex-wrap gap-2">
+                    <div>⚠️ <span id="alert-cust-name-display" class="font-black underline"></span> has previous dues of <span id="alert-cust-dues-amount" class="font-black text-amber-600 dark:text-amber-400">₹0.00</span>!</div>
+                    <div class="flex gap-1.5">
+                        <button type="button" onclick="openCustomerDuesModalWithMobile()" class="bg-amber-500 text-slate-950 font-black px-2 py-1 rounded text-xs">Ledger</button>
+                        <button type="button" onclick="dismissDuesAlert()" class="sub-card px-2 py-1 rounded border text-xs">✕</button>
+                    </div>
+                </div>
+            </div>
+
+            <form id="transaction-form" onsubmit="handleFormSubmit(event)" class="space-y-2.5">
+                <input type="hidden" id="editing-txn-id" value="">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2.5 w-full">
+                    <div class="input-card-wrap relative lg:col-span-3">
+                        <label class="clean-label">📱 Mobile Number (10 Digits) *</label>
+                        <input type="tel" id="cust-mobile" required maxlength="10" autocomplete="off" placeholder="Eg: 9876543210" oninput="validateMobileInput(this); filterMobileSuggestions(); autofillCustomerByNameOrMobile();" onkeydown="handleMobileKeydown(event)" class="clean-input font-mono">
+                        <div id="mobile-suggestions-box" class="hidden absolute left-0 right-0 top-full mt-1 sub-card border border-cyan-500 rounded-xl shadow-2xl z-50 max-h-48 overflow-y-auto divide-y divide-slate-200 dark:divide-slate-700 text-center"></div>
+                    </div>
+                    <div class="input-card-wrap lg:col-span-3">
+                        <label class="clean-label">👤 Customer Name *</label>
+                        <input type="text" id="cust-name" required maxlength="20" placeholder="Name" class="uppercase-input clean-input" oninput="this.value = this.value.toUpperCase(); autofillMobileByName();">
+                    </div>
+
+                    <div class="input-card-wrap relative lg:col-span-6">
+                        <label class="clean-label">⚡ Service Work & Charge ₹ *</label>
+                        <div class="flex gap-1">
+                            <input type="text" id="service-type" maxlength="30" autocomplete="off" placeholder="Aadhaar, PAN, Voter..." oninput="filterServiceSuggestions()" onfocus="filterServiceSuggestions()" onkeydown="handleServiceKeydown(event)" class="uppercase-input clean-input text-xs flex-1">
+                            <input type="number" step="0.01" min="0" id="service-individual-price" placeholder="Charge ₹" onkeydown="handleServiceKeydown(event)" class="clean-input font-mono text-xs w-28 text-emerald-500 font-black">
+                            <button type="button" onclick="addServiceTaskToForm()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs px-3 rounded-md shadow flex-shrink-0">+ Add Task</button>
+                        </div>
+                        <div id="service-suggestions-box" class="hidden absolute left-0 right-0 top-full mt-1 sub-card border border-emerald-500 rounded-xl shadow-2xl z-50 max-h-48 overflow-y-auto divide-y divide-slate-200 dark:divide-slate-700 text-center"></div>
+                    </div>
+                </div>
+
+                <div id="selected-services-chips" class="flex flex-wrap gap-1.5 sub-card p-2 rounded-xl border min-h-[42px] items-center">
+                    <span class="text-xs text-slate-400 italic">Added services and individual rates will show here...</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 w-full">
+                    <div class="input-card-wrap">
+                        <label class="clean-label">💳 Total Bill / Charge ₹ *</label>
+                        <input type="number" step="0.01" min="0" id="total-charge" required placeholder="0.00" oninput="calculateLiveDuesAndProfit()" class="clean-input font-mono text-cyan-500 font-black">
+                    </div>
+                    <div class="input-card-wrap">
+                        <label class="clean-label">🏛️ Govt / Portal Fees ₹ *</label>
+                        <input type="number" step="0.01" min="0" id="govt-fees" required placeholder="0.00" oninput="calculateLiveDuesAndProfit()" class="clean-input font-mono">
+                    </div>
+                    <div class="input-card-wrap">
+                        <label class="clean-label">💰 Advance / Paid Amount ₹ *</label>
+                        <input type="number" step="0.01" min="0" id="advance-paid" required placeholder="0.00" oninput="calculateLiveDuesAndProfit()" class="clean-input font-mono text-emerald-500 font-black">
+                    </div>
+                    <div class="input-card-wrap">
+                        <label class="clean-label">↩️ Refund Amount ₹</label>
+                        <input type="number" step="0.01" min="0" id="refund-amount" value="0" placeholder="0.00" oninput="calculateLiveDuesAndProfit()" class="clean-input font-mono">
+                    </div>
+                    <div class="input-card-wrap sm:col-span-2">
+                        <label class="clean-label">🔄 Payment Mode *</label>
+                        <select id="payment-mode" required onchange="toggleSplitPaymentInputs()" class="uppercase-input clean-input cursor-pointer">
+                            <option value="CASH">CASH</option>
+                            <option value="UPI (GPAY/PHONEPE/PAYTM)">UPI (GPAY/PHONEPE/PAYTM)</option>
+                            <option value="BANK TRANSFER (IMPS/NEFT)">BANK TRANSFER (IMPS/NEFT)</option>
+                            <option value="SPLIT (CASH + UPI)">SPLIT (CASH + UPI)</option>
+                            <option value="CREDIT">CREDIT</option>
+                        </select>
+                    </div>
+                    <div class="input-card-wrap sm:col-span-2">
+                        <label class="clean-label">📝 Remarks / Ack No / RRN</label>
+                        <input type="text" id="remarks" placeholder="Remarks" class="uppercase-input clean-input" oninput="this.value = this.value.toUpperCase()">
+                    </div>
+                </div>
+
+                <div id="split-payment-box" class="hidden p-2 sub-card rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-2 border">
+                    <div class="input-card-wrap"><label class="clean-label">💵 Cash Share ₹</label><input type="number" step="0.01" id="split-cash-amount" placeholder="0.00" class="clean-input font-mono"></div>
+                    <div class="input-card-wrap"><label class="clean-label">📱 UPI Share ₹</label><input type="number" step="0.01" id="split-upi-amount" placeholder="0.00" class="clean-input font-mono"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-2.5 items-center pt-1">
+                    <div class="lg:col-span-5 flex items-center justify-around sub-card p-2 rounded-xl border text-center">
+                        <div><span class="text-[10px] text-slate-500 dark:text-slate-400 block font-bold">Dues</span><span id="live-calc-dues" class="text-xs sm:text-sm font-black font-mono text-amber-600 dark:text-amber-400">₹0.00</span></div>
+                        <div class="w-[1px] h-6 bg-slate-300 dark:bg-slate-700"></div>
+                        <div><span class="text-[10px] text-slate-500 dark:text-slate-400 block font-bold">Profit</span><span id="live-calc-profit" class="text-xs sm:text-sm font-black font-mono text-emerald-600 dark:text-emerald-400">₹0.00</span></div>
+                    </div>
+                    <div class="lg:col-span-7 flex items-center gap-2">
+                        <button type="submit" id="btn-save-txn" class="btn-clean flex-1 bg-cyan-600 hover:bg-cyan-500 text-white py-2.5 text-xs sm:text-sm font-black shadow-lg">💾 Save Entry</button>
+                        <button type="button" onclick="cancelEditForm()" class="btn-clean w-24 sm:w-28 sub-card py-2.5 text-xs sm:text-sm font-bold border">🔄 Reset</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <!-- LEDGER TABLE -->
+        <section class="flat-panel rounded-2xl overflow-hidden w-full">
+            <div class="p-3 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center gap-2 flex-wrap">
+                <div>
+                    <h2 class="text-xs sm:text-sm font-black uppercase">📋 Rojnamcha Ledger</h2>
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400 font-bold" id="ledger-sub-text">Records</p>
+                </div>
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <input type="text" id="table-search" onkeyup="filterLedgerTable()" placeholder="🔍 Search records..." class="uppercase-input clean-input w-full sm:w-64 text-xs py-1.5" oninput="this.value = this.value.toUpperCase()">
+                </div>
+            </div>
+            <div class="overflow-x-auto w-full max-w-full">
+                <table class="w-full text-center border-collapse text-xs whitespace-nowrap">
+                    <thead>
+                        <tr class="table-head-row uppercase border-b font-black">
+                            <th class="p-2.5">Receipt ID</th><th class="p-2.5">Date</th><th class="p-2.5">Customer Name</th><th class="p-2.5">Mobile</th><th class="p-2.5">Service Work</th><th class="p-2.5">Total Bill</th><th class="p-2.5">Govt Fee</th><th class="p-2.5">Dues</th><th class="p-2.5">Net Profit</th><th class="p-2.5">Status</th><th class="p-2.5">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ledger-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 uppercase font-bold text-center"></tbody>
+                </table>
+            </div>
+            <div id="empty-state" class="hidden p-6 text-center text-slate-500 dark:text-slate-400 text-xs font-black">No transaction records found!</div>
+        </section>
+    </main>
+
+    <!-- METRIC STATS & GRAPH POPUP MODAL -->
+    <div id="metric-detail-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="flat-panel border border-cyan-500/40 w-full max-w-2xl rounded-2xl p-4 max-h-[90vh] flex flex-col space-y-3">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2">
+                <h3 id="metric-modal-title" class="text-sm font-black text-cyan-600 dark:text-cyan-400 uppercase">📊 Detailed Stats</h3>
+                <button onclick="closeMetricDetailModal()" class="text-slate-500 text-2xl">&times;</button>
+            </div>
+            <div class="overflow-y-auto flex-1 space-y-3">
+                <div id="metric-modal-summary" class="grid grid-cols-2 sm:grid-cols-3 gap-2"></div>
+                <div class="sub-card p-3 rounded-xl border">
+                    <h4 class="text-xs font-bold mb-2 uppercase text-slate-400" id="chart-graph-heading">Trend Analysis Graph</h4>
+                    <div class="relative h-60 w-full">
+                        <canvas id="metricTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-2 text-right">
+                <button onclick="closeMetricDetailModal()" class="btn-clean sub-card px-4 py-1.5 text-xs border font-bold">Close Window</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOMER DETAILS & TASK MODAL -->
+    <div id="customer-tasks-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="flat-panel border border-cyan-500/40 w-full max-w-2xl rounded-2xl p-4 max-h-[90vh] flex flex-col space-y-3">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2">
+                <div>
+                    <h3 id="task-modal-cust-name" class="text-sm font-black text-cyan-600 dark:text-cyan-400 uppercase">Customer Work Details</h3>
+                    <p id="task-modal-cust-mobile" class="text-xs font-mono text-slate-400"></p>
+                </div>
+                <button onclick="closeCustomerTasksModal()" class="text-slate-500 text-2xl">&times;</button>
+            </div>
+            <div class="overflow-y-auto flex-1 space-y-2">
+                <table class="w-full text-center border-collapse text-xs whitespace-nowrap">
+                    <thead>
+                        <tr class="table-head-row border-b font-black">
+                            <th class="p-2">Task / Service</th>
+                            <th class="p-2">Amount Charged ₹</th>
+                            <th class="p-2">Status</th>
+                            <th class="p-2">Toggle Work Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customer-tasks-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 font-bold"></tbody>
+                </table>
+
+                <div class="sub-card p-2.5 rounded-xl border border-slate-700 mt-2">
+                    <span class="text-[10px] text-slate-400 font-bold block uppercase">📝 Remarks / Ack No / RRN:</span>
+                    <span id="task-modal-remarks-display" class="text-xs font-mono font-black text-cyan-400">NONE</span>
+                </div>
+            </div>
+            <div class="pt-2 flex justify-between items-center border-t border-slate-200 dark:border-slate-800">
+                <div id="task-modal-total-display" class="text-xs font-mono font-black text-emerald-500">Total: ₹0.00</div>
+                <button onclick="closeCustomerTasksModal()" class="btn-clean sub-card px-4 py-1.5 text-xs border font-bold">Close Window</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SHOP ATTENDANCE MODAL -->
+    <div id="shop-attendance-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="flat-panel border border-emerald-500/40 w-full max-w-xl rounded-2xl p-4 max-h-[90vh] flex flex-col space-y-3">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2">
+                <h3 class="text-xs sm:text-sm font-black text-emerald-600 dark:text-emerald-400 uppercase">🟢 Shop Attendance</h3>
+                <button onclick="toggleShopAttendance()" class="text-slate-500 text-2xl">&times;</button>
+            </div>
+            <div class="sub-card p-3 rounded-xl border text-center space-y-2">
+                <p id="attendance-status-text" class="text-xs font-bold text-slate-700 dark:text-slate-300">Shop is currently closed today.</p>
+                <div class="flex gap-2 justify-center pt-1 flex-wrap">
+                    <button id="btn-clock-in" onclick="clockInShop()" class="btn-clean bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 text-xs font-black">🟢 Clock In (Open Shop)</button>
+                    <button id="btn-clock-out" onclick="clockOutShop()" class="btn-clean bg-rose-600 hover:bg-rose-500 text-white px-3 py-2 text-xs font-black hidden">🔴 Clock Out (Close Shop)</button>
+                </div>
+            </div>
+            <div class="overflow-y-auto flex-1 space-y-2">
+                <h4 class="text-xs font-black text-cyan-600 dark:text-cyan-400 uppercase">📅 Attendance History</h4>
+                <table class="w-full text-center border-collapse text-xs whitespace-nowrap">
+                    <thead>
+                        <tr class="table-head-row border-b font-black">
+                            <th class="p-2">Date</th><th class="p-2">Open Time</th><th class="p-2">Close Time</th><th class="p-2">Total Hours</th><th class="p-2">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendance-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 font-bold"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANALYTICS MODAL -->
+    <div id="analytics-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="flat-panel border border-violet-500/40 w-full max-w-3xl rounded-2xl p-4 max-h-[90vh] flex flex-col space-y-3">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2">
+                <h3 class="text-xs sm:text-sm font-black text-violet-600 dark:text-violet-400 uppercase">📊 Analytics Dashboard</h3>
+                <button onclick="closeAnalyticsModal()" class="text-slate-500 text-2xl">&times;</button>
+            </div>
+            <div id="analytics-content-box" class="space-y-4 overflow-y-auto flex-1 p-2 text-xs"></div>
+            <div class="pt-1"><button onclick="closeAnalyticsModal()" class="btn-clean sub-card w-full py-2 text-xs border font-bold">Close</button></div>
+        </div>
+    </div>
+
+    <!-- QUICK INCOME MODAL -->
+    <div id="quick-income-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-3 hidden">
+        <div class="flat-panel border border-indigo-500/40 w-full max-w-sm rounded-2xl p-4 space-y-3 text-center">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2"><h3 class="text-xs font-black text-indigo-600 dark:text-indigo-400 uppercase">⚡ Quick Entry</h3><button onclick="closeQuickIncomeModal()" class="text-slate-500 text-lg">&times;</button></div>
+            <form onsubmit="handleQuickIncomeSubmit(event)" class="space-y-3 text-left">
+                <div>
+                    <label class="clean-label">Work Title *</label>
+                    <select id="quick-service-title" class="clean-input text-xs py-1.5 cursor-pointer">
+                        <option value="PHOTOCOPY">PHOTOCOPY</option>
+                        <option value="LAMINATION">LAMINATION</option>
+                        <option value="PRINT OUT">PRINT OUT</option>
+                        <option value="SCANNING">SCANNING</option>
+                        <option value="MISCELLANEOUS WORK">MISCELLANEOUS WORK</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="clean-label text-emerald-600 dark:text-emerald-400">Total Amount (₹) *</label>
+                    <input type="number" step="0.01" min="0" id="quick-amount" required placeholder="0.00" class="clean-input font-mono font-black text-base py-2">
+                </div>
+                <div>
+                    <label class="clean-label">Payment Mode *</label>
+                    <select id="quick-mode" class="clean-input text-xs py-1.5 cursor-pointer">
+                        <option value="CASH">CASH</option>
+                        <option value="UPI">UPI</option>
+                    </select>
+                </div>
+                <div class="pt-2"><button type="submit" class="w-full bg-indigo-600 text-white font-black py-2.5 text-xs rounded">➕ Add Entry</button></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- WALLET MODAL -->
+    <div id="wallet-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="flat-panel border border-blue-500/40 w-full max-w-2xl rounded-2xl p-4 max-h-[92vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2 mb-3">
+                <h3 class="text-xs sm:text-sm font-black text-blue-600 dark:text-blue-400 uppercase">🏦 Wallet Tracker</h3>
+                <button onclick="closeWalletModal()" class="text-slate-500 text-2xl">&times;</button>
+            </div>
+            <form onsubmit="handleWalletSubmit(event)" class="sub-card p-3 rounded-xl border mb-3">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <div><label class="clean-label">Portal Name</label><input type="text" id="wallet-name" required placeholder="Portal" class="uppercase-input clean-input text-xs py-1.5" oninput="this.value = this.value.toUpperCase()"></div>
+                    <div><label class="clean-label text-blue-600 dark:text-blue-400">Balance ₹ *</label><input type="number" step="0.01" id="wallet-amt" required placeholder="0.00" class="clean-input text-xs py-1.5 font-black"></div>
+                    <div class="flex items-end"><button type="submit" class="w-full bg-blue-600 text-white font-black py-2 text-xs rounded">➕ Update</button></div>
+                </div>
+            </form>
+            <div class="overflow-y-auto flex-1 space-y-2">
+                <table class="w-full text-center border-collapse text-xs whitespace-nowrap">
+                    <thead><tr class="table-head-row border-b"><th class="p-2">Portal Name</th><th class="p-2">Balance</th><th class="p-2">Updated</th><th class="p-2">Action</th></tr></thead>
+                    <tbody id="wallet-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 font-bold"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- INVENTORY MODAL -->
+    <div id="inventory-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="flat-panel border border-purple-500/40 w-full max-w-3xl rounded-2xl p-4 max-h-[92vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2 mb-3">
+                <h3 class="text-xs sm:text-sm font-black text-purple-600 dark:text-purple-400 uppercase">📦 Stock Management</h3>
+                <button onclick="closeInventoryModal()" class="text-slate-500 text-2xl">&times;</button>
+            </div>
+            <form onsubmit="handleInventorySubmit(event)" class="sub-card p-3 rounded-xl border mb-3">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
+                    <div><label class="clean-label">Item Name</label><input type="text" id="inv-item" required placeholder="Item" class="uppercase-input clean-input text-xs py-1.5" oninput="this.value = this.value.toUpperCase()"></div>
+                    <div><label class="clean-label text-purple-600 dark:text-purple-400">Qty</label><input type="number" id="inv-qty" required placeholder="0" class="clean-input text-xs py-1.5 font-black"></div>
+                    <div><label class="clean-label">Price ₹</label><input type="number" step="0.01" id="inv-price" required placeholder="0.00" class="clean-input text-xs py-1.5"></div>
+                    <div class="flex items-end"><button type="submit" class="w-full bg-purple-600 text-white font-black py-2 text-xs rounded">➕ Add Stock</button></div>
+                </div>
+            </form>
+            <div class="overflow-y-auto flex-1 space-y-2">
+                <table class="w-full text-center border-collapse text-xs whitespace-nowrap">
+                    <thead><tr class="table-head-row border-b"><th class="p-2">Item</th><th class="p-2">Qty</th><th class="p-2">Price</th><th class="p-2">Total</th><th class="p-2">Action</th></tr></thead>
+                    <tbody id="inventory-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 font-bold"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- CASH TALLY MODAL -->
+    <div id="cash-tally-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="flat-panel border border-emerald-500/40 w-full max-w-lg rounded-2xl p-4 space-y-3">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2"><h3 class="text-xs sm:text-sm font-black text-emerald-600 dark:text-emerald-400 uppercase">💵 Cash Tally</h3><button onclick="closeCashTallyModal()" class="text-slate-500 text-2xl">&times;</button></div>
+            <div class="sub-card p-3 rounded-xl space-y-2 text-xs border">
+                <div class="flex justify-between"><span>Expected Cash:</span><span id="tally-system-cash" class="font-mono font-black text-cyan-600 dark:text-cyan-400">₹0.00</span></div>
+                <div class="flex justify-between"><span>Digital / UPI:</span><span id="tally-system-upi" class="font-mono font-black text-indigo-600 dark:text-indigo-400">₹0.00</span></div>
+                <div class="flex justify-between border-t border-slate-200 dark:border-slate-700 pt-1"><span>Expenses:</span><span id="tally-expenses" class="font-mono font-black text-rose-600 dark:text-rose-400">₹0.00</span></div>
+            </div>
+            <div class="space-y-2 text-xs">
+                <label class="clean-label">Enter actual physical cash in drawer:</label>
+                <input type="number" step="0.01" id="tally-physical-cash" placeholder="0.00" oninput="calculateCashDifference()" class="clean-input font-mono text-base font-black py-2">
+                <div id="tally-difference-box" class="p-2.5 rounded-xl text-center font-bold sub-card border">Difference: ₹0.00</div>
+            </div>
+            <div class="flex gap-2 pt-1"><button onclick="closeCashTallyModal()" class="btn-clean bg-emerald-600 text-white w-full py-2.5 text-xs font-black">Save & Close</button></div>
+        </div>
+    </div>
+
+    <!-- EXPENSES MODAL -->
+    <div id="expenses-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="flat-panel border border-amber-500/40 w-full max-w-3xl rounded-2xl p-4 max-h-[92vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2 mb-3">
+                <h3 class="text-xs sm:text-sm font-black text-amber-600 dark:text-amber-500 uppercase">💸 Expenses</h3>
+                <button onclick="closeExpensesModal()" class="text-slate-500 text-2xl">&times;</button>
+            </div>
+            <form id="expense-form" onsubmit="handleExpenseSubmit(event)" class="sub-card p-3 rounded-xl border mb-3">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
+                    <div><label class="clean-label">Date</label><input type="date" id="exp-date" required class="clean-input text-xs py-1.5"></div>
+                    <div>
+                        <label class="clean-label text-amber-600 dark:text-amber-400">Category *</label>
+                        <select id="exp-category" required class="clean-input text-xs py-1.5 cursor-pointer">
+                            <option value="ROOM / SHOP RENT">RENT</option><option value="WIFI RECHARGE">WIFI</option><option value="MOBILE">MOBILE</option><option value="ELECTRICITY">ELECTRICITY</option><option value="OTHER">OTHER</option>
+                        </select>
+                    </div>
+                    <div><label class="clean-label text-rose-600 dark:text-rose-400">Amount ₹ *</label><input type="number" step="0.01" id="exp-amount" required placeholder="0.00" class="clean-input text-xs py-1.5 font-black"></div>
+                    <div><label class="clean-label">Remarks</label><input type="text" id="exp-note" maxlength="20" placeholder="Note" class="uppercase-input clean-input text-xs py-1.5" oninput="this.value = this.value.toUpperCase()"></div>
+                </div>
+                <div class="flex justify-end pt-2"><button type="submit" class="bg-amber-500 text-slate-950 font-black px-4 py-2 text-xs rounded">➕ Add Expense</button></div>
+            </form>
+            <div class="overflow-y-auto flex-1 space-y-2">
+                <div class="sub-card p-2.5 rounded-xl border text-xs font-mono font-black flex justify-between flex-wrap gap-1">
+                    <div>Day Total: <span id="exp-day-total" class="text-rose-600 dark:text-rose-400">₹0</span></div>
+                    <div>Month Total: <span id="exp-month-total" class="text-rose-600 dark:text-rose-400">₹0</span></div>
+                </div>
+                <table class="w-full text-center border-collapse text-xs whitespace-nowrap">
+                    <thead><tr class="table-head-row border-b"><th class="p-2">Date</th><th class="p-2">Category</th><th class="p-2">Remarks</th><th class="p-2">Amount</th><th class="p-2">Action</th></tr></thead>
+                    <tbody id="expense-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 font-bold"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- PENDING TASKS MODAL -->
+    <div id="pending-tasks-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="flat-panel border border-rose-500/40 w-full max-w-4xl rounded-2xl p-4 max-h-[92vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2 mb-3">
+                <h3 class="text-xs sm:text-sm font-black text-rose-600 dark:text-rose-400 uppercase">⏳ Pending Tasks</h3>
+                <button onclick="closePendingTasksModal()" class="text-slate-500 text-2xl">&times;</button>
+            </div>
+            <div class="sub-card border p-2.5 rounded-xl flex justify-between items-center mb-3 text-xs flex-wrap gap-2">
+                <div>Total Pending: <span id="pending-modal-total-count" class="font-black text-rose-600 dark:text-rose-400">0</span> | Amount: <span id="pending-modal-total-amount" class="font-black text-amber-600 dark:text-amber-400">₹0</span></div>
+                <input type="text" id="pending-search-input" onkeyup="renderPendingTasksDirectory()" placeholder="🔍 Search..." class="uppercase-input clean-input w-full sm:w-48 text-xs py-1.5" oninput="this.value = this.value.toUpperCase()">
+            </div>
+            <div class="overflow-y-auto flex-1">
+                <table class="w-full text-center border-collapse text-xs whitespace-nowrap">
+                    <thead><tr class="table-head-row border-b"><th class="p-2">Day</th><th class="p-2">Date</th><th class="p-2">Receipt</th><th class="p-2">Name</th><th class="p-2">Mobile</th><th class="p-2">Service</th><th class="p-2">Bill</th><th class="p-2">Dues</th><th class="p-2">Action</th></tr></thead>
+                    <tbody id="pending-tasks-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 font-black"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settings-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-3 hidden">
+        <div class="flat-panel border border-cyan-500/40 w-full max-w-sm rounded-2xl p-4 space-y-3 text-center">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2">
+                <h3 class="text-xs font-black text-cyan-600 dark:text-cyan-500 uppercase">⚙️ Settings</h3>
+                <button onclick="closeSettingsModal()" class="text-slate-500">&times;</button>
+            </div>
+            <div class="space-y-2.5 text-xs text-left">
+                <div class="sub-card p-2 rounded-xl border space-y-1">
+                    <label class="clean-label">☀️ / 🌙 Display Theme Mode</label>
+                    <select id="setting-theme-dropdown" onchange="onThemeDropdownChange(this.value)" class="clean-input text-xs py-1.5 cursor-pointer">
+                        <option value="dark">🌙 Night Mode</option>
+                        <option value="light">☀️ Day Mode (Light)</option>
+                    </select>
+                </div>
+
+                <div class="sub-card p-2 rounded-xl border space-y-1">
+                    <label class="clean-label">💾 Data Management (Backup / Restore)</label>
+                    <div class="grid grid-cols-2 gap-1.5 pt-1">
+                        <button onclick="backupSystemJSON()" class="btn-clean bg-blue-600 text-white py-2 text-xs font-bold rounded">💾 Backup JSON</button>
+                        <label class="btn-clean bg-emerald-600 text-white py-2 text-xs font-bold rounded cursor-pointer text-center">
+                            📤 Restore
+                            <input type="file" id="restore-file-input" accept=".json" class="hidden" onchange="restoreSystemJSON(event)">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="sub-card p-2 rounded-xl border flex justify-between items-center"><label class="font-black uppercase">BG Color</label><input type="color" id="setting-bg-color" value="#070b14" class="w-8 h-7 rounded cursor-pointer"></div>
+                <div class="sub-card p-2 rounded-xl border flex justify-between items-center"><label class="font-black uppercase">Text Color</label><input type="color" id="setting-font-color" value="#f8fafc" class="w-8 h-7 rounded cursor-pointer"></div>
+                
+                <div class="flex gap-2 pt-1">
+                    <button onclick="saveAppSettings()" class="bg-cyan-600 flex-1 text-white py-2 rounded font-black">Save Settings</button>
+                    <button onclick="closeSettingsModal()" class="sub-card flex-1 py-2 border rounded">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOMER DUES MODAL -->
+    <div id="customer-dues-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-3 hidden">
+        <div class="flat-panel border border-amber-500/40 w-full max-w-3xl rounded-2xl p-4 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2 mb-2"><h3 class="text-xs sm:text-sm font-black text-amber-600 dark:text-amber-500 uppercase">📙 Khata Ledger</h3><button onclick="closeCustomerDuesModal()" class="text-slate-500">&times;</button></div>
+            <div class="sub-card border p-2.5 rounded-xl flex justify-between items-center mb-2 text-xs flex-wrap gap-2">
+                <div>Total Dues: <span id="dues-dir-total" class="font-black text-amber-600 dark:text-amber-400 font-mono">₹0.00</span></div>
+                <input type="text" id="dues-dir-search" onkeyup="renderCustomerDuesDirectory()" placeholder="🔍 Search..." class="uppercase-input clean-input w-full sm:w-48 text-xs py-1.5" oninput="this.value = this.value.toUpperCase()">
+            </div>
+            <div class="overflow-y-auto flex-1 space-y-2">
+                <table class="w-full text-center border-collapse text-xs whitespace-nowrap">
+                    <thead><tr class="table-head-row border-b"><th class="p-2">Name</th><th class="p-2">Mobile</th><th class="p-2">Due Amount</th><th class="p-2">WhatsApp</th><th class="p-2">Action</th></tr></thead>
+                    <tbody id="dues-directory-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 font-black"></tbody>
+                </table>
+                <div id="dues-customer-history-box" class="hidden sub-card border p-2.5 rounded-xl space-y-1.5">
+                    <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-1"><h4 id="dues-history-title" class="text-xs font-black text-amber-600 dark:text-amber-400">Customer History</h4><button onclick="hideCustomerHistoryBox()" class="sub-card px-2 py-0.5 text-xs border">✕</button></div>
+                    <table class="w-full text-center border-collapse text-xs whitespace-nowrap">
+                        <thead><tr class="table-head-row border-b"><th class="p-1.5">Date</th><th class="p-1.5">Receipt</th><th class="p-1.5">Service</th><th class="p-1.5">Bill</th><th class="p-1.5">Paid</th><th class="p-1.5 text-amber-600 dark:text-amber-400">Due</th><th class="p-1.5">Action</th></tr></thead>
+                        <tbody id="dues-history-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 font-semibold"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PARTIAL PAYMENT MODAL -->
+    <div id="partial-pay-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-3 hidden">
+        <div class="flat-panel border border-emerald-500/40 w-full max-w-sm rounded-2xl p-4 space-y-3 text-center">
+            <h3 class="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase">💰 Payment Settlement</h3>
+            <input type="hidden" id="settle-due-txn-id" value="">
+            <div class="sub-card p-2 rounded-xl border text-xs text-left space-y-1">
+                <div>Current Due: <span id="modal-due-display" class="font-mono text-amber-600 dark:text-amber-400 font-black">₹0.00</span></div>
+            </div>
+            <div class="space-y-1 text-left">
+                <label class="clean-label">Received Amount (₹):</label>
+                <input type="number" step="0.01" id="partial-pay-amount-input" placeholder="0.00" class="clean-input font-mono font-black text-base py-2">
+            </div>
+            <div class="flex gap-2 pt-1">
+                <button onclick="processPartialOrExtraPayment()" class="bg-emerald-600 flex-1 text-white py-2 text-xs font-black rounded">Deposit</button>
+                <button onclick="closePartialPayModal()" class="sub-card flex-1 py-2 text-xs border rounded">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRO LEVEL RECEIPT MODAL (PROPER HARDCODED FONTS, NO CORRUPTION, HD CANVAS SAVE & PRINT) -->
+    <div id="print-receipt-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-start justify-center p-2 sm:p-4 hidden overflow-y-auto">
+        <div class="bg-white text-slate-900 w-full max-w-md rounded-xl shadow-2xl p-3 relative my-2 mx-auto">
+            <div id="receipt-capture-area" class="receipt-printable-box">
+                <!-- HEADER WITH CUSTOMER NAME AND MOBILE NO -->
+                <div style="display:flex; justify-between:space-between; border-bottom:2px solid #003399; padding-bottom:4px; margin-bottom:4px;">
+                    <div style="text-align:left; line-height:1.2;">
+                        <div style="font-weight:900; color:#003399; font-size:12px; text-transform:uppercase;">AAFIYA MONEY TRANSFER</div>
+                        <div style="font-size:10px; font-weight:bold; color:#111;">📞 Mob: 7503468897</div>
+                        <div style="font-size:8px; color:#333;">📍 754 POCKET 5 SECTOR A6 NARELA DELHI</div>
+                    </div>
+                    <div style="text-align:right; line-height:1.2;">
+                        <div style="font-weight:900; color:#000; font-size:11px; text-transform:uppercase;" id="slip-cust-name-header">Name: -</div>
+                        <div style="font-size:10px; font-weight:900; color:#003399;" id="slip-cust-mobile-header">Mob: -</div>
+                        <div style="font-size:9px; font-weight:bold; color:#222;" id="slip-receipt-id-header">Receipt: -</div>
+                        <div style="font-size:9px; color:#444;" id="slip-date-header">Date: -</div>
+                    </div>
+                </div>
+
+                <!-- SLIP WORK DETAILS TABLE -->
+                <table style="width:100%; border-collapse:collapse; margin:4px 0; font-size:10px; text-align:center;">
+                    <thead>
+                        <tr style="background-color:#003399; color:#ffffff !important;">
+                            <th style="border:1px solid #003399; padding:3px; color:#ffffff !important; font-weight:bold;">Receipt ID</th>
+                            <th style="border:1px solid #003399; padding:3px; color:#ffffff !important; font-weight:bold;">Service Work</th>
+                            <th style="border:1px solid #003399; padding:3px; color:#ffffff !important; font-weight:bold;">Mode</th>
+                            <th style="border:1px solid #003399; padding:3px; color:#ffffff !important; font-weight:bold;">Total (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-weight:bold; color:#000000;">
+                        <tr>
+                            <td style="border:1px solid #003399; padding:3px; font-family:monospace;" id="slip-tid-val">-</td>
+                            <td style="border:1px solid #003399; padding:3px; font-weight:900; color:#003399;" id="slip-service-val">-</td>
+                            <td style="border:1px solid #003399; padding:3px;" id="slip-mode-val">-</td>
+                            <td style="border:1px solid #003399; padding:3px; font-family:monospace; font-weight:900;" id="slip-amount-val">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="display:flex; justify-content:space-between; font-size:10px; font-weight:bold; border-bottom:1px solid #003399; padding-bottom:3px; margin-bottom:3px;">
+                    <div>Paid: <span id="slip-advance-val" style="font-family:monospace; color:#008800; font-weight:900;">₹0.00</span></div>
+                    <div>Dues: <span id="slip-dues-val" style="font-family:monospace; color:#cc0000; font-weight:900;">₹0.00</span></div>
+                </div>
+
+                <!-- REMARKS SECTION IN PRINT PREVIEW -->
+                <div id="slip-remarks-box" style="text-align:left; font-size:9px; border-bottom:1px solid #003399; padding-bottom:3px; margin-bottom:3px; font-weight:bold; color:#111;">
+                    <span>📝 Remarks / Ref: </span><span id="slip-remarks-val" style="font-family:monospace; font-weight:900; text-transform:uppercase; color:#003399;">-</span>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; font-size:8px; margin-top:2px;">
+                    <div style="font-weight:900; font-style:italic; color:#003399;">🙏 Thank You! Visit Again.</div>
+                    <div style="color:#555; font-weight:bold;">&copy; 2026 AAFIYA ENTERPRISE</div>
+                </div>
+            </div>
+            
+            <div class="mt-3 space-y-2 receipt-btn-group">
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="downloadReceiptImage()" class="btn-clean bg-blue-600 text-white py-2 px-2 text-xs font-black shadow flex items-center justify-center gap-1">💾 Save Pro Receipt (Image)</button>
+                    <button onclick="window.print()" class="btn-clean bg-emerald-600 text-white py-2 px-2 text-xs font-black shadow flex items-center justify-center gap-1">🖨️ Print Receipt</button>
+                </div>
+                <button onclick="closeReceiptModal()" class="btn-clean bg-slate-200 text-slate-800 w-full py-2 text-xs font-bold">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIN MODAL -->
+    <div id="pin-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
+        <div class="flat-panel border border-rose-500/40 w-full max-w-xs p-4 text-center">
+            <div class="text-2xl mb-1">🔒</div>
+            <h3 id="pin-modal-title" class="text-xs font-black text-rose-600 dark:text-rose-500 uppercase mb-2">Enter Security PIN</h3>
+            <input type="password" id="pin-input" maxlength="6" placeholder="******" class="clean-input w-full py-1.5 text-center text-lg font-mono mb-2 tracking-widest font-bold">
+            <p id="pin-error" class="text-xs text-rose-500 font-bold mb-2 hidden">❌ Incorrect PIN!</p>
+            <div class="flex gap-2 justify-center">
+                <button id="pin-confirm-btn" onclick="executePinAction()" class="btn-clean bg-rose-600 flex-1 text-white py-2 text-xs font-black">Confirm</button>
+                <button onclick="closePinModal()" class="btn-clean sub-card flex-1 py-2 text-xs border">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const STORAGE_KEY = 'aafiya_enterprise_ledger_v12';
+        const SETTINGS_KEY = 'aafiya_enterprise_settings_v12';
+        const SERVICES_KEY = 'aafiya_enterprise_services_v12';
+        const EXPENSES_KEY = 'aafiya_enterprise_expenses_v12';
+        const WALLET_KEY = 'aafiya_enterprise_wallet_v12';
+        const INVENTORY_KEY = 'aafiya_enterprise_inventory_v12';
+        const ATTENDANCE_KEY = 'aafiya_enterprise_attendance_v12';
+        const THEME_KEY = 'aafiya_enterprise_theme_mode';
+        const DELETE_PIN = '965472';
+        const ACTION_PIN = '1234';
+        
+        let activeTxnForReceipt = null;
+        let pendingActionCallback = null;
+        let currentViewMode = 'day'; // 'day', 'yesterday', 'weekly', 'month'
+        let selectedFilterDate = getTodayDateString();
+        let currentEntryTasksList = [];
+        let trendChartInstance = null;
+
+        const DEFAULT_SERVICES = [
+            "AEPS", "DMT/UPI", "AADHAR CARD", "PAN CARD", "RAIL/BUS/FLIGHT TICKET",
+            "LEARNING /DL NEW/ RENEWAL", "ABHA CARD", "AYUSHMAN CARD",
+            "RATION CARD APPLY/ADD MEMBER", "ALL TYPE PVC CARD", "PRINT OUT/ PHOTOCOPY",
+            "PASSPORT PHOTO", "POLICE VERIFICATION", "PF", "ACCOUNT OPENING",
+            "VOTER CARD", "INSURANCE", "ONLINE FORM APPLY", "OTHER"
+        ];
+
+        function initThemeMode() {
+            const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
+            applyTheme(savedTheme);
+            const dropdown = document.getElementById('setting-theme-dropdown');
+            if (dropdown) dropdown.value = savedTheme;
+        }
+
+        function onThemeDropdownChange(themeVal) {
+            applyTheme(themeVal);
+            localStorage.setItem(THEME_KEY, themeVal);
+        }
+
+        function applyTheme(theme) {
+            const root = document.getElementById('html-root');
+            if (theme === 'light') {
+                root.classList.remove('dark'); root.classList.add('light');
+            } else {
+                root.classList.remove('light'); root.classList.add('dark');
+            }
+        }
+
+        function toggleReportsDropdown() {
+            const panel = document.getElementById('reports-dropdown-panel');
+            panel.classList.toggle('hidden');
+        }
+
+        function closeReportsDropdown() {
+            document.getElementById('reports-dropdown-panel').classList.add('hidden');
+        }
+
+        /* OUTSIDE CLICK AUTO CLOSE DROPDOWN */
+        window.addEventListener('click', function(e) {
+            const reportsBtn = document.getElementById('reports-menu-btn');
+            const reportsPanel = document.getElementById('reports-dropdown-panel');
+            if (reportsBtn && !reportsBtn.contains(e.target) && reportsPanel && !reportsPanel.contains(e.target)) {
+                closeReportsDropdown();
+            }
+
+            const serviceInput = document.getElementById('service-type');
+            const serviceBox = document.getElementById('service-suggestions-box');
+            if (serviceInput && !serviceInput.contains(e.target) && serviceBox && !serviceBox.contains(e.target)) {
+                serviceBox.classList.add('hidden');
+            }
+
+            const mobileInput = document.getElementById('cust-mobile');
+            const mobileBox = document.getElementById('mobile-suggestions-box');
+            if (mobileInput && !mobileInput.contains(e.target) && mobileBox && !mobileBox.contains(e.target)) {
+                mobileBox.classList.add('hidden');
+            }
+        });
+
+        function getAllServices() {
+            const stored = localStorage.getItem(SERVICES_KEY);
+            if (!stored) return DEFAULT_SERVICES;
+            try { return Array.from(new Set([...DEFAULT_SERVICES, ...JSON.parse(stored)])); } catch { return DEFAULT_SERVICES; }
+        }
+
+        function saveNewServiceIfNotExist(serviceName) {
+            if (!serviceName) return;
+            const cleaned = serviceName.trim().toUpperCase();
+            if (cleaned.length < 2) return;
+            let current = getAllServices();
+            if (!current.includes(cleaned)) {
+                current.push(cleaned);
+                localStorage.setItem(SERVICES_KEY, JSON.stringify(current));
+            }
+        }
+
+        function getTodayDateString() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        function getDailyPassword() {
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const yyyy = today.getFullYear();
+            return `${dd}${mm}${yyyy}`;
+        }
+
+        function updateLiveClock() {
+            const now = new Date();
+            const clockEl = document.getElementById('inline-clock-text');
+            if (clockEl) clockEl.innerText = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+        }
+
+        function openDatePickerCalendar() {
+            const picker = document.getElementById('ledger-date-picker');
+            if (picker.showPicker) {
+                try { picker.showPicker(); } catch { picker.click(); }
+            } else {
+                picker.click();
+            }
+        }
+
+        function onDateSelectedFromPicker(dateStr) {
+            if (!dateStr) return;
+            selectedFilterDate = dateStr;
+            currentViewMode = 'day';
+            updateModeButtonsUI();
+            document.getElementById('current-ledger-view-label').innerText = dateStr;
+            renderLedger();
+        }
+
+        function setQuickDate(mode) {
+            currentViewMode = mode;
+            const today = new Date();
+            
+            if (mode === 'today') {
+                selectedFilterDate = getTodayDateString();
+                document.getElementById('current-ledger-view-label').innerText = selectedFilterDate;
+            } else if (mode === 'yesterday') {
+                const yest = new Date(today);
+                yest.setDate(yest.getDate() - 1);
+                const yyyy = yest.getFullYear();
+                const mm = String(yest.getMonth() + 1).padStart(2, '0');
+                const dd = String(yest.getDate()).padStart(2, '0');
+                selectedFilterDate = `${yyyy}-${mm}-${dd}`;
+                document.getElementById('current-ledger-view-label').innerText = `Yesterday (${selectedFilterDate})`;
+            } else if (mode === 'weekly') {
+                document.getElementById('current-ledger-view-label').innerText = "Last 7 Days (Weekly)";
+            } else if (mode === 'month') {
+                const monthName = today.toLocaleString('default', { month: 'long', year: 'numeric' });
+                document.getElementById('current-ledger-view-label').innerText = `This Month (${monthName})`;
+            }
+            updateModeButtonsUI();
+            renderLedger();
+        }
+
+        function updateModeButtonsUI() {
+            const btnToday = document.getElementById('btn-mode-today');
+            const btnYest = document.getElementById('btn-mode-yesterday');
+            const btnWeek = document.getElementById('btn-mode-weekly');
+            const btnMonth = document.getElementById('btn-mode-monthly');
+
+            [btnToday, btnYest, btnWeek, btnMonth].forEach(b => {
+                b.className = "btn-clean sub-card text-xs px-2.5 py-1.5 border font-bold";
+            });
+
+            if (currentViewMode === 'day') {
+                btnToday.className = "btn-clean bg-cyan-600 text-white text-xs px-3 py-1.5 border font-black shadow";
+            } else if (currentViewMode === 'yesterday') {
+                btnYest.className = "btn-clean bg-cyan-600 text-white text-xs px-3 py-1.5 border font-black shadow";
+            } else if (currentViewMode === 'weekly') {
+                btnWeek.className = "btn-clean bg-indigo-600 text-white text-xs px-3 py-1.5 border font-black shadow";
+            } else if (currentViewMode === 'month') {
+                btnMonth.className = "btn-clean bg-emerald-600 text-white text-xs px-3 py-1.5 border font-black shadow";
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initThemeMode();
+            loadAppSettings();
+            checkAppLockStatus();
+            selectedFilterDate = getTodayDateString();
+            document.getElementById('exp-date').value = getTodayDateString();
+            document.getElementById('current-ledger-view-label').innerText = selectedFilterDate;
+            updateLiveClock();
+            setInterval(updateLiveClock, 1000);
+            renderLedger();
+            updatePendingWorkBadge();
+            checkTodayAttendanceState();
+        });
+
+        function checkAppLockStatus() {
+            document.getElementById('app-lock-screen').classList.remove('hidden');
+            setTimeout(() => { document.getElementById('unlock-password-input').focus(); }, 300);
+        }
+
+        function handleLockPasswordKey(event) { if (event.key === 'Enter') verifyAppUnlock(); }
+
+        function verifyAppUnlock() {
+            const entered = document.getElementById('unlock-password-input').value.trim();
+            const correctDailyPassword = getDailyPassword();
+            const fixedPassword = '1234';
+            
+            if (entered === fixedPassword || entered === correctDailyPassword) {
+                document.getElementById('unlock-error').classList.add('hidden');
+                const successMsg = document.getElementById('welcome-success-msg');
+                successMsg.classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('app-lock-screen').classList.add('hidden');
+                    document.getElementById('unlock-password-input').value = '';
+                    successMsg.classList.add('hidden');
+                }, 400);
+            } else {
+                document.getElementById('unlock-error').classList.remove('hidden');
+            }
+        }
+
+        function addServiceTaskToForm() {
+            const serviceInput = document.getElementById('service-type');
+            const priceInput = document.getElementById('service-individual-price');
+            
+            const title = serviceInput.value.trim().toUpperCase();
+            const price = parseFloat(priceInput.value) || 0;
+
+            if (!title) return;
+
+            saveNewServiceIfNotExist(title);
+
+            currentEntryTasksList.push({
+                taskId: 'TSK_' + Date.now() + Math.random().toString(36).substr(2, 3),
+                title: title,
+                price: price,
+                status: 'PENDING'
+            });
+
+            serviceInput.value = '';
+            priceInput.value = '';
+            document.getElementById('service-suggestions-box').classList.add('hidden');
+            renderSelectedServiceChips();
+            autoCalculateTotalBillFromTasks();
+        }
+
+        function removeServiceTaskFromForm(taskId) {
+            currentEntryTasksList = currentEntryTasksList.filter(t => t.taskId !== taskId);
+            renderSelectedServiceChips();
+            autoCalculateTotalBillFromTasks();
+        }
+
+        function autoCalculateTotalBillFromTasks() {
+            if (currentEntryTasksList.length > 0) {
+                const totalCalculated = currentEntryTasksList.reduce((sum, task) => sum + (task.price || 0), 0);
+                document.getElementById('total-charge').value = totalCalculated > 0 ? totalCalculated : '';
+                calculateLiveDuesAndProfit();
+            }
+        }
+
+        function renderSelectedServiceChips() {
+            const container = document.getElementById('selected-services-chips');
+            container.innerHTML = '';
+            if (currentEntryTasksList.length === 0) {
+                container.innerHTML = `<span class="text-xs text-slate-400 italic">Added services and individual rates will show here...</span>`;
+                return;
+            }
+
+            currentEntryTasksList.forEach(t => {
+                const chip = document.createElement('div');
+                chip.className = "px-2.5 py-1 bg-cyan-950/70 dark:bg-cyan-900/70 border border-cyan-500/60 rounded-lg flex items-center gap-2 text-xs font-bold text-cyan-300";
+                chip.innerHTML = `<span>⚡ ${t.title}</span> <span class="font-mono text-emerald-400 font-black">₹${t.price || 0}</span> <button type="button" onclick="removeServiceTaskFromForm('${t.taskId}')" class="text-rose-400 hover:text-rose-200 font-black ml-1 text-sm">&times;</button>`;
+                container.appendChild(chip);
+            });
+        }
+
+        function filterServiceSuggestions() {
+            const input = document.getElementById('service-type').value.toUpperCase().trim();
+            const box = document.getElementById('service-suggestions-box');
+            box.innerHTML = '';
+
+            const allServ = getAllServices();
+            const matches = allServ.filter(s => s.includes(input));
+
+            if (matches.length === 0) {
+                box.classList.add('hidden');
+                return;
+            }
+
+            matches.forEach(item => {
+                const d = document.createElement('div');
+                d.className = "p-2 text-xs font-bold hover:bg-cyan-600 hover:text-white cursor-pointer uppercase truncate";
+                d.innerText = item;
+                d.onclick = () => {
+                    document.getElementById('service-type').value = item;
+                    box.classList.add('hidden');
+                    document.getElementById('service-individual-price').focus();
+                };
+                box.appendChild(d);
+            });
+
+            box.classList.remove('hidden');
+        }
+
+        function handleServiceKeydown(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addServiceTaskToForm();
+            }
+        }
+
+        function filterMobileSuggestions() {
+            const val = document.getElementById('cust-mobile').value.trim();
+            const box = document.getElementById('mobile-suggestions-box');
+            box.innerHTML = '';
+
+            if (val.length < 2) {
+                box.classList.add('hidden');
+                return;
+            }
+
+            const txns = getStoredTransactions();
+            const uniqueMap = new Map();
+            txns.forEach(t => {
+                if (t.custMobile && t.custMobile.includes(val)) {
+                    uniqueMap.set(t.custMobile, t.custName);
+                }
+            });
+
+            if (uniqueMap.size === 0) {
+                box.classList.add('hidden');
+                return;
+            }
+
+            uniqueMap.forEach((name, mob) => {
+                const d = document.createElement('div');
+                d.className = "p-2 text-xs font-bold hover:bg-cyan-600 hover:text-white cursor-pointer flex justify-between";
+                d.innerHTML = `<span class="font-mono text-cyan-400">${mob}</span><span class="uppercase">${name}</span>`;
+                d.onclick = () => {
+                    document.getElementById('cust-mobile').value = mob;
+                    document.getElementById('cust-name').value = name;
+                    box.classList.add('hidden');
+                    checkCustomerPastDues(mob, name);
+                };
+                box.appendChild(d);
+            });
+
+            box.classList.remove('hidden');
+        }
+
+        function validateMobileInput(el) {
+            el.value = el.value.replace(/[^0-9]/g, '');
+        }
+
+        function handleMobileKeydown(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('cust-name').focus();
+            }
+        }
+
+        function autofillCustomerByNameOrMobile() {
+            const mob = document.getElementById('cust-mobile').value.trim();
+            if (mob.length === 10) {
+                const txns = getStoredTransactions();
+                const found = txns.find(t => t.custMobile === mob);
+                if (found && !document.getElementById('cust-name').value) {
+                    document.getElementById('cust-name').value = found.custName;
+                }
+                checkCustomerPastDues(mob, document.getElementById('cust-name').value);
+            }
+        }
+
+        function autofillMobileByName() {
+            const name = document.getElementById('cust-name').value.trim().toUpperCase();
+            if (name.length >= 3 && !document.getElementById('cust-mobile').value) {
+                const txns = getStoredTransactions();
+                const found = txns.find(t => t.custName.toUpperCase() === name);
+                if (found) {
+                    document.getElementById('cust-mobile').value = found.custMobile;
+                    checkCustomerPastDues(found.custMobile, name);
+                }
+            }
+        }
+
+        function checkCustomerPastDues(mob, name) {
+            const txns = getStoredTransactions();
+            let totalDue = 0;
+            txns.forEach(t => {
+                if ((mob && t.custMobile === mob) || (name && t.custName.toUpperCase() === name.toUpperCase())) {
+                    totalDue += (t.balanceDues || 0);
+                }
+            });
+
+            const alertBox = document.getElementById('customer-past-dues-alert');
+            if (totalDue > 0) {
+                document.getElementById('alert-cust-name-display').innerText = name || mob;
+                document.getElementById('alert-cust-dues-amount').innerText = `₹${totalDue.toFixed(2)}`;
+                alertBox.classList.remove('hidden');
+            } else {
+                alertBox.classList.add('hidden');
+            }
+        }
+
+        function dismissDuesAlert() { document.getElementById('customer-past-dues-alert').classList.add('hidden'); }
+
+        function calculateLiveDuesAndProfit() {
+            const total = parseFloat(document.getElementById('total-charge').value) || 0;
+            const govt = parseFloat(document.getElementById('govt-fees').value) || 0;
+            const advance = parseFloat(document.getElementById('advance-paid').value) || 0;
+            const refund = parseFloat(document.getElementById('refund-amount').value) || 0;
+
+            const dues = Math.max(0, total - advance);
+            const netProfit = Math.max(0, total - govt - refund);
+
+            document.getElementById('live-calc-dues').innerText = `₹${dues.toFixed(2)}`;
+            document.getElementById('live-calc-profit').innerText = `₹${netProfit.toFixed(2)}`;
+
+            const warning = document.getElementById('loss-warning-banner');
+            if (govt > total && total > 0) { warning.classList.remove('hidden'); }
+            else { warning.classList.add('hidden'); }
+        }
+
+        function toggleSplitPaymentInputs() {
+            const mode = document.getElementById('payment-mode').value;
+            const box = document.getElementById('split-payment-box');
+            if (mode.includes('SPLIT')) { box.classList.remove('hidden'); }
+            else { box.classList.add('hidden'); }
+        }
+
+        function toggleShopCalculator() { document.getElementById('shop-calculator-panel').classList.toggle('hidden'); }
+        function calcAppend(v) { const s = document.getElementById('calc-screen'); s.value = (s.value === '0' || s.value === 'Error') ? v : s.value + v; }
+        function calcClear() { document.getElementById('calc-screen').value = '0'; }
+        function calcBackspace() { const s = document.getElementById('calc-screen'); s.value = s.value.length > 1 ? s.value.slice(0, -1) : '0'; }
+        function calcPercentage() { const s = document.getElementById('calc-screen'); try { s.value = parseFloat(s.value) / 100; } catch { s.value = 'Error'; } }
+        function calcCompute() { const s = document.getElementById('calc-screen'); try { s.value = eval(s.value.replace(/×/g, '*').replace(/÷/g, '/')); } catch { s.value = 'Error'; } }
+
+        function handleCalcKeyboardInput(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                calcCompute();
+            } else if (e.key === 'Escape') {
+                calcClear();
+            }
+        }
+
+        function getStoredTransactions() { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+        function saveTransactions(txns) { localStorage.setItem(STORAGE_KEY, JSON.stringify(txns)); }
+
+        function getStoredExpenses() { return JSON.parse(localStorage.getItem(EXPENSES_KEY) || '[]'); }
+        function saveExpenses(exps) { localStorage.setItem(EXPENSES_KEY, JSON.stringify(exps)); }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            const mob = document.getElementById('cust-mobile').value.trim();
+            const name = document.getElementById('cust-name').value.trim().toUpperCase();
+            
+            if (mob.length !== 10) { alert('Please enter valid 10-digit mobile number!'); return; }
+
+            const total = parseFloat(document.getElementById('total-charge').value) || 0;
+            const govt = parseFloat(document.getElementById('govt-fees').value) || 0;
+            const advance = parseFloat(document.getElementById('advance-paid').value) || 0;
+            const refund = parseFloat(document.getElementById('refund-amount').value) || 0;
+            const mode = document.getElementById('payment-mode').value;
+            const remarks = document.getElementById('remarks').value.trim().toUpperCase();
+
+            const splitCash = mode.includes('SPLIT') ? (parseFloat(document.getElementById('split-cash-amount').value) || 0) : (mode.includes('CASH') ? advance : 0);
+            const splitUpi = mode.includes('SPLIT') ? (parseFloat(document.getElementById('split-upi-amount').value) || 0) : (mode.includes('UPI') ? advance : 0);
+
+            const dues = Math.max(0, total - advance);
+            const netProfit = total - govt - refund;
+
+            let serviceTitle = "GENERAL SERVICE";
+            if (currentEntryTasksList.length > 0) {
+                serviceTitle = currentEntryTasksList.map(t => t.title).join(', ');
+            } else {
+                const inputSvc = document.getElementById('service-type').value.trim().toUpperCase();
+                if (inputSvc) serviceTitle = inputSvc;
+            }
+
+            const now = new Date();
+            const dateStr = selectedFilterDate || getTodayDateString();
+            const editingId = document.getElementById('editing-txn-id').value;
+            let txns = getStoredTransactions();
+
+            if (editingId) {
+                const index = txns.findIndex(t => t.id === editingId);
+                if (index !== -1) {
+                    txns[index] = {
+                        ...txns[index],
+                        custMobile: mob,
+                        custName: name,
+                        serviceType: serviceTitle,
+                        totalCharge: total,
+                        govtFees: govt,
+                        advancePaid: advance,
+                        refundAmount: refund,
+                        balanceDues: dues,
+                        netProfit: netProfit,
+                        paymentMode: mode,
+                        splitCash: splitCash,
+                        splitUpi: splitUpi,
+                        remarks: remarks,
+                        taskList: currentEntryTasksList.length > 0 ? currentEntryTasksList : txns[index].taskList,
+                        status: dues === 0 ? 'COMPLETED' : 'PENDING'
+                    };
+                }
+            } else {
+                const receiptId = `RCP${dateStr.replace(/-/g, '')}${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
+                const newTxn = {
+                    id: 'TXN_' + Date.now(),
+                    receiptId: receiptId,
+                    date: dateStr,
+                    timestamp: now.toLocaleDateString() + ' ' + now.toLocaleTimeString(),
+                    custMobile: mob,
+                    custName: name,
+                    serviceType: serviceTitle,
+                    totalCharge: total,
+                    govtFees: govt,
+                    advancePaid: advance,
+                    refundAmount: refund,
+                    balanceDues: dues,
+                    netProfit: netProfit,
+                    paymentMode: mode,
+                    splitCash: splitCash,
+                    splitUpi: splitUpi,
+                    remarks: remarks,
+                    taskList: currentEntryTasksList.length > 0 ? currentEntryTasksList : [{ taskId: 'TSK_1', title: serviceTitle, price: total, status: dues === 0 ? 'COMPLETED' : 'PENDING' }],
+                    status: dues === 0 ? 'COMPLETED' : 'PENDING'
+                };
+                txns.push(newTxn);
+            }
+
+            saveTransactions(txns);
+            cancelEditForm();
+            renderLedger();
+            updatePendingWorkBadge();
+        }
+
+        function cancelEditForm() {
+            document.getElementById('editing-txn-id').value = '';
+            document.getElementById('transaction-form').reset();
+            document.getElementById('form-section-heading').innerHTML = `<span>➕</span> Add New Transaction`;
+            document.getElementById('btn-save-txn').innerText = `💾 Save Entry`;
+            currentEntryTasksList = [];
+            renderSelectedServiceChips();
+            document.getElementById('live-calc-dues').innerText = `₹0.00`;
+            document.getElementById('live-calc-profit').innerText = `₹0.00`;
+            document.getElementById('split-payment-box').classList.add('hidden');
+            dismissDuesAlert();
+        }
+
+        function getFilteredTransactions() {
+            const txns = getStoredTransactions();
+            const today = new Date();
+            
+            if (currentViewMode === 'day' || currentViewMode === 'yesterday') {
+                return txns.filter(t => t.date === selectedFilterDate);
+            } else if (currentViewMode === 'weekly') {
+                const past7Days = new Date(today);
+                past7Days.setDate(past7Days.getDate() - 7);
+                return txns.filter(t => new Date(t.date) >= past7Days);
+            } else if (currentViewMode === 'month') {
+                const curMonth = String(today.getMonth() + 1).padStart(2, '0');
+                const curYear = today.getFullYear();
+                return txns.filter(t => {
+                    const parts = t.date.split('-');
+                    return parts[0] == curYear && parts[1] == curMonth;
+                });
+            }
+            return txns;
+        }
+
+        function renderLedger() {
+            const filtered = getFilteredTransactions();
+            const tbody = document.getElementById('ledger-table-body');
+            const emptyState = document.getElementById('empty-state');
+            tbody.innerHTML = '';
+
+            let totalVisits = filtered.length;
+            let totalTurnover = 0;
+            let totalGovtFees = 0;
+            let totalNetProfit = 0;
+            let totalCash = 0;
+            let totalUpi = 0;
+
+            filtered.forEach(t => {
+                totalTurnover += t.totalCharge;
+                totalGovtFees += t.govtFees;
+                totalNetProfit += t.netProfit;
+                totalCash += (t.splitCash || 0);
+                totalUpi += (t.splitUpi || 0);
+
+                const isCompleted = t.status === 'COMPLETED';
+                const statusBadge = isCompleted ? 
+                    `<span class="px-2 py-0.5 rounded text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-500 font-bold">COMPLETED</span>` : 
+                    `<span class="px-2 py-0.5 rounded text-[10px] bg-amber-950 text-amber-400 border border-amber-500 font-bold">PENDING</span>`;
+
+                tbody.innerHTML += `
+                    <tr class="border-b border-slate-200 dark:border-slate-800 hover:bg-cyan-950/20 transition-colors">
+                        <td class="p-2.5 font-mono text-cyan-500 font-black">${t.receiptId}</td>
+                        <td class="p-2.5 font-mono text-slate-400 text-[10px]">${t.date}</td>
+                        <td class="p-2.5 font-black text-cyan-600 dark:text-cyan-400 text-left">${t.custName}</td>
+                        <td class="p-2.5 font-mono text-slate-300">${t.custMobile}</td>
+                        <td class="p-2.5 text-left truncate max-w-[150px]"><button onclick="openCustomerTasksModal('${t.id}')" class="underline hover:text-cyan-400 font-bold">${t.serviceType}</button></td>
+                        <td class="p-2.5 font-mono font-black text-cyan-400">₹${t.totalCharge.toFixed(2)}</td>
+                        <td class="p-2.5 font-mono text-slate-400">₹${t.govtFees.toFixed(2)}</td>
+                        <td class="p-2.5 font-mono text-amber-500 font-black">₹${t.balanceDues.toFixed(2)}</td>
+                        <td class="p-2.5 font-mono text-emerald-400 font-black">₹${t.netProfit.toFixed(2)}</td>
+                        <td class="p-2.5">${statusBadge}</td>
+                        <td class="p-2.5 flex items-center justify-center gap-1.5">
+                            <button onclick="openReceiptModal('${t.id}')" title="Print Pro Receipt" class="btn-clean bg-blue-600 hover:bg-blue-500 text-white p-1 text-xs">🖨️</button>
+                            <button onclick="editTransaction('${t.id}')" title="Edit Entry" class="btn-clean bg-amber-600 hover:bg-amber-500 text-white p-1 text-xs">✏️</button>
+                            <button onclick="confirmDeleteTxn('${t.id}')" title="Delete Entry" class="btn-clean bg-rose-600 hover:bg-rose-500 text-white p-1 text-xs">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            // UPDATE METRIC CARDS
+            document.getElementById('metric-customer-visits').innerText = totalVisits;
+            document.getElementById('metric-total-turnover').innerText = `₹${totalTurnover.toFixed(2)}`;
+            document.getElementById('metric-govt-fees').innerText = `₹${totalGovtFees.toFixed(2)}`;
+            document.getElementById('metric-net-profit').innerText = `₹${totalNetProfit.toFixed(2)}`;
+            document.getElementById('metric-cash-hand').innerText = `₹${totalCash.toFixed(0)}`;
+            document.getElementById('metric-digital-upi').innerText = `₹${totalUpi.toFixed(0)}`;
+
+            const profitMargin = totalTurnover > 0 ? ((totalNetProfit / totalTurnover) * 100).toFixed(1) : 0;
+            document.getElementById('metric-profit-pct').innerText = `${profitMargin}% Profit Margin`;
+
+            // UPDATE EXPENSES TOTAL FOR CURRENT VIEW MODE
+            const exps = getStoredExpenses();
+            let expTotal = 0;
+            if (currentViewMode === 'day' || currentViewMode === 'yesterday') {
+                exps.filter(e => e.date === selectedFilterDate).forEach(e => expTotal += e.amount);
+            } else {
+                exps.forEach(e => expTotal += e.amount);
+            }
+            document.getElementById('metric-total-expenses').innerText = `₹${expTotal.toFixed(2)}`;
+            document.getElementById('ledger-sub-text').innerText = `Showing ${filtered.length} records in ${currentViewMode.toUpperCase()} mode`;
+        }
+
+        /* METRIC CLICK TO OPEN GRAPH & STATS POPUP */
+        function openMetricDetailModal(type) {
+            const modal = document.getElementById('metric-detail-modal');
+            const title = document.getElementById('metric-modal-title');
+            const summary = document.getElementById('metric-modal-summary');
+            const heading = document.getElementById('chart-graph-heading');
+
+            const txns = getStoredTransactions();
+            const exps = getStoredExpenses();
+
+            // Group data by last 7 days for graph
+            const daysMap = {};
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date();
+                d.setDate(d.getDate() - i);
+                const yyyy = d.getFullYear();
+                const mm = String(d.getMonth() + 1).padStart(2, '0');
+                const dd = String(d.getDate()).padStart(2, '0');
+                const key = `${yyyy}-${mm}-${dd}`;
+                daysMap[key] = { label: `${dd}/${mm}`, turnover: 0, profit: 0, visits: 0, cash: 0, upi: 0 };
+            }
+
+            txns.forEach(t => {
+                if (daysMap[t.date]) {
+                    daysMap[t.date].turnover += t.totalCharge;
+                    daysMap[t.date].profit += t.netProfit;
+                    daysMap[t.date].visits += 1;
+                    daysMap[t.date].cash += (t.splitCash || 0);
+                    daysMap[t.date].upi += (t.splitUpi || 0);
+                }
+            });
+
+            const labels = Object.values(daysMap).map(v => v.label);
+            let chartData = [];
+            let chartLabel = '';
+            let chartColor = '#38bdf8';
+
+            if (type === 'visits') {
+                title.innerText = "👥 Customer Visits Stats & Trend Graph";
+                heading.innerText = "Daily Customer Visits (Last 7 Days)";
+                chartData = Object.values(daysMap).map(v => v.visits);
+                chartLabel = 'Visits';
+                chartColor = '#3b82f6';
+                summary.innerHTML = `
+                    <div class="sub-card p-2 text-center rounded border"><span class="text-[10px] text-slate-400 block font-bold">Total Recorded</span><span class="text-base font-black font-mono text-blue-400">${txns.length} Customers</span></div>
+                    <div class="sub-card p-2 text-center rounded border"><span class="text-[10px] text-slate-400 block font-bold">Avg Daily</span><span class="text-base font-black font-mono text-cyan-400">${(txns.length / 7).toFixed(1)} / Day</span></div>
+                `;
+            } else if (type === 'turnover') {
+                title.innerText = "📈 Total Turnover Stats & Trend Graph";
+                heading.innerText = "Daily Revenue Turnover ₹ (Last 7 Days)";
+                chartData = Object.values(daysMap).map(v => v.turnover);
+                chartLabel = 'Turnover ₹';
+                chartColor = '#06b6d4';
+                let sum = txns.reduce((a, b) => a + b.totalCharge, 0);
+                summary.innerHTML = `
+                    <div class="sub-card p-2 text-center rounded border"><span class="text-[10px] text-slate-400 block font-bold">Lifetime Revenue</span><span class="text-base font-black font-mono text-cyan-400">₹${sum.toFixed(2)}</span></div>
+                    <div class="sub-card p-2 text-center rounded border"><span class="text-[10px] text-slate-400 block font-bold">Highest Bill</span><span class="text-base font-black font-mono text-emerald-400">₹${Math.max(...txns.map(t => t.totalCharge), 0).toFixed(2)}</span></div>
+                `;
+            } else if (type === 'profit') {
+                title.innerText = "💰 Net Profit Stats & Trend Graph";
+                heading.innerText = "Daily Net Profit ₹ (Last 7 Days)";
+                chartData = Object.values(daysMap).map(v => v.profit);
+                chartLabel = 'Net Profit ₹';
+                chartColor = '#10b981';
+                let sumProfit = txns.reduce((a, b) => a + b.netProfit, 0);
+                summary.innerHTML = `
+                    <div class="sub-card p-2 text-center rounded border"><span class="text-[10px] text-slate-400 block font-bold">Total Net Profit</span><span class="text-base font-black font-mono text-emerald-400">₹${sumProfit.toFixed(2)}</span></div>
+                    <div class="sub-card p-2 text-center rounded border"><span class="text-[10px] text-slate-400 block font-bold">Margin</span><span class="text-base font-black font-mono text-cyan-400">High Growth</span></div>
+                `;
+            } else if (type === 'cash_upi') {
+                title.innerText = "💵 Cash vs UPI Share Breakdown";
+                heading.innerText = "Cash vs UPI Collection (Last 7 Days)";
+                chartData = Object.values(daysMap).map(v => v.cash);
+                chartLabel = 'Cash Collection ₹';
+                chartColor = '#f59e0b';
+                let totalCash = txns.reduce((a, b) => a + (b.splitCash || 0), 0);
+                let totalUpi = txns.reduce((a, b) => a + (b.splitUpi || 0), 0);
+                summary.innerHTML = `
+                    <div class="sub-card p-2 text-center rounded border"><span class="text-[10px] text-slate-400 block font-bold">Total Cash</span><span class="text-base font-black font-mono text-amber-400">₹${totalCash.toFixed(2)}</span></div>
+                    <div class="sub-card p-2 text-center rounded border"><span class="text-[10px] text-slate-400 block font-bold">Total UPI</span><span class="text-base font-black font-mono text-indigo-400">₹${totalUpi.toFixed(2)}</span></div>
+                `;
+            }
+
+            modal.classList.remove('hidden');
+
+            // Render Chart.js Canvas Graph
+            const ctx = document.getElementById('metricTrendChart').getContext('2d');
+            if (trendChartInstance) trendChartInstance.destroy();
+
+            trendChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: chartLabel,
+                        data: chartData,
+                        borderColor: chartColor,
+                        backgroundColor: chartColor + '33',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.35,
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: true } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                    }
+                }
+            });
+        }
+
+        function closeMetricDetailModal() {
+            document.getElementById('metric-detail-modal').classList.add('hidden');
+        }
+
+        function filterLedgerTable() {
+            const query = document.getElementById('table-search').value.toUpperCase();
+            const rows = document.querySelectorAll('#ledger-table-body tr');
+            rows.forEach(r => {
+                const text = r.innerText.toUpperCase();
+                r.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        function editTransaction(id) {
+            const txns = getStoredTransactions();
+            const t = txns.find(item => item.id === id);
+            if (!t) return;
+
+            document.getElementById('editing-txn-id').value = t.id;
+            document.getElementById('cust-mobile').value = t.custMobile;
+            document.getElementById('cust-name').value = t.custName;
+            document.getElementById('total-charge').value = t.totalCharge;
+            document.getElementById('govt-fees').value = t.govtFees;
+            document.getElementById('advance-paid').value = t.advancePaid;
+            document.getElementById('refund-amount').value = t.refundAmount || 0;
+            document.getElementById('payment-mode').value = t.paymentMode;
+            document.getElementById('remarks').value = t.remarks || '';
+
+            currentEntryTasksList = t.taskList || [];
+            renderSelectedServiceChips();
+            toggleSplitPaymentInputs();
+
+            if (t.paymentMode.includes('SPLIT')) {
+                document.getElementById('split-cash-amount').value = t.splitCash || 0;
+                document.getElementById('split-upi-amount').value = t.splitUpi || 0;
+            }
+
+            calculateLiveDuesAndProfit();
+            document.getElementById('form-section-heading').innerHTML = `<span class="text-amber-500">✏️</span> Edit Transaction (${t.receiptId})`;
+            document.getElementById('btn-save-txn').innerText = `💾 Update Entry`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function confirmDeleteTxn(id) {
+            pendingActionCallback = () => {
+                let txns = getStoredTransactions().filter(t => t.id !== id);
+                saveTransactions(txns);
+                renderLedger();
+                updatePendingWorkBadge();
+            };
+            openPinModal(DELETE_PIN, "Delete Record Confirmation");
+        }
+
+        function openPinModal(expectedPin, title) {
+            document.getElementById('pin-modal-title').innerText = title;
+            document.getElementById('pin-input').value = '';
+            document.getElementById('pin-error').classList.add('hidden');
+            document.getElementById('pin-modal').classList.remove('hidden');
+            setTimeout(() => { document.getElementById('pin-input').focus(); }, 200);
+        }
+
+        function closePinModal() {
+            document.getElementById('pin-modal').classList.add('hidden');
+            pendingActionCallback = null;
+        }
+
+        function executePinAction() {
+            const entered = document.getElementById('pin-input').value.trim();
+            if (entered === DELETE_PIN || entered === ACTION_PIN) {
+                if (pendingActionCallback) pendingActionCallback();
+                closePinModal();
+            } else {
+                document.getElementById('pin-error').classList.remove('hidden');
+            }
+        }
+
+        /* PRO LEVEL PERFECT RECEIPT CAPTURE & PRINT LOGIC */
+        function openReceiptModal(txnId) {
+            const txns = getStoredTransactions();
+            const t = txns.find(item => item.id === txnId);
+            if (!t) return;
+
+            activeTxnForReceipt = t;
+
+            document.getElementById('slip-cust-name-header').innerText = `Name: ${t.custName}`;
+            document.getElementById('slip-cust-mobile-header').innerText = `Mob: ${t.custMobile}`;
+            document.getElementById('slip-receipt-id-header').innerText = `Receipt: ${t.receiptId}`;
+            document.getElementById('slip-date-header').innerText = `Date: ${t.date}`;
+
+            document.getElementById('slip-tid-val').innerText = t.receiptId;
+            document.getElementById('slip-service-val').innerText = t.serviceType;
+            document.getElementById('slip-mode-val').innerText = t.paymentMode;
+            document.getElementById('slip-amount-val').innerText = `₹${t.totalCharge.toFixed(2)}`;
+
+            document.getElementById('slip-advance-val').innerText = `₹${t.advancePaid.toFixed(2)}`;
+            document.getElementById('slip-dues-val').innerText = `₹${t.balanceDues.toFixed(2)}`;
+
+            document.getElementById('slip-remarks-val').innerText = t.remarks && t.remarks.trim() !== '' ? t.remarks : "NONE";
+
+            document.getElementById('print-receipt-modal').classList.remove('hidden');
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('print-receipt-modal').classList.add('hidden');
+        }
+
+        function downloadReceiptImage() {
+            const captureArea = document.getElementById('receipt-capture-area');
+            if (!captureArea || !activeTxnForReceipt) return;
+
+            html2canvas(captureArea, {
+                scale: 3, // High Resolution Capture
+                useCORS: true,
+                backgroundColor: "#ffffff",
+                logging: false,
+                letterRendering: true
+            }).then(canvas => {
+                const image = canvas.toDataURL("image/png");
+                const link = document.createElement('a');
+                link.href = image;
+                link.download = `Receipt_${activeTxnForReceipt.receiptId}_${activeTxnForReceipt.custName}.png`;
+                link.click();
+            });
+        }
+
+        /* CUSTOMER WORK DETAILS MODAL WITH REMARKS DISPLAY */
+        function openCustomerTasksModal(txnId) {
+            const txns = getStoredTransactions();
+            const t = txns.find(item => item.id === txnId);
+            if (!t) return;
+
+            document.getElementById('task-modal-cust-name').innerText = `👤 ${t.custName} - Complete Work Details`;
+            document.getElementById('task-modal-cust-mobile').innerText = `Mobile: ${t.custMobile} | Receipt: ${t.receiptId}`;
+            document.getElementById('task-modal-remarks-display').innerText = t.remarks && t.remarks.trim() !== '' ? t.remarks : "NONE";
+
+            const tbody = document.getElementById('customer-tasks-table-body');
+            tbody.innerHTML = '';
+
+            const tasksList = (t.taskList && t.taskList.length > 0) ? t.taskList : [{ taskId: 'TSK_SINGLE', title: t.serviceType, price: t.totalCharge, status: t.status }];
+
+            tasksList.forEach(task => {
+                const isDone = task.status === 'COMPLETED';
+                const taskPrice = task.price || 0;
+
+                tbody.innerHTML += `
+                    <tr class="border-b border-slate-200 dark:border-slate-800">
+                        <td class="p-2.5 text-left font-black text-cyan-600 dark:text-cyan-400">${task.title}</td>
+                        <td class="p-2.5 font-mono text-emerald-600 dark:text-emerald-400 font-black">₹${taskPrice.toFixed(2)}</td>
+                        <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] ${isDone ? 'bg-emerald-950 text-emerald-400 border border-emerald-500' : 'bg-rose-950 text-rose-400 border border-rose-500'}">${task.status}</span></td>
+                        <td class="p-2.5">
+                            <button onclick="toggleSingleTaskStatus('${t.id}', '${task.taskId}')" class="px-2.5 py-1 rounded text-xs text-white font-black ${isDone ? 'bg-amber-600' : 'bg-emerald-600'}">
+                                Mark ${isDone ? 'Pending' : 'Completed'}
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('task-modal-total-display').innerText = `Total Bill: ₹${t.totalCharge.toFixed(2)}`;
+            document.getElementById('customer-tasks-modal').classList.remove('hidden');
+        }
+
+        function closeCustomerTasksModal() {
+            document.getElementById('customer-tasks-modal').classList.add('hidden');
+        }
+
+        function toggleSingleTaskStatus(txnId, taskId) {
+            let txns = getStoredTransactions();
+            const t = txns.find(item => item.id === txnId);
+            if (!t) return;
+
+            if (t.taskList && t.taskList.length > 0) {
+                const task = t.taskList.find(k => k.taskId === taskId);
+                if (task) {
+                    task.status = task.status === 'COMPLETED' ? 'PENDING' : 'COMPLETED';
+                }
+                const allCompleted = t.taskList.every(k => k.status === 'COMPLETED');
+                t.status = allCompleted ? 'COMPLETED' : 'PENDING';
+            } else {
+                t.status = t.status === 'COMPLETED' ? 'PENDING' : 'COMPLETED';
+            }
+
+            saveTransactions(txns);
+            renderLedger();
+            openCustomerTasksModal(txnId);
+            updatePendingWorkBadge();
+        }
+
+        function updatePendingWorkBadge() {
+            const txns = getStoredTransactions();
+            let count = 0;
+            txns.forEach(t => { if (t.status === 'PENDING' || t.balanceDues > 0) count++; });
+            document.getElementById('pending-work-badge').innerText = count;
+        }
+
+        function openPendingTasksModal() {
+            renderPendingTasksDirectory();
+            document.getElementById('pending-tasks-modal').classList.remove('hidden');
+        }
+
+        function closePendingTasksModal() {
+            document.getElementById('pending-tasks-modal').classList.add('hidden');
+        }
+
+        function renderPendingTasksDirectory() {
+            const txns = getStoredTransactions();
+            const search = document.getElementById('pending-search-input').value.toUpperCase();
+            const tbody = document.getElementById('pending-tasks-table-body');
+            tbody.innerHTML = '';
+
+            const pendingList = txns.filter(t => (t.status === 'PENDING' || t.balanceDues > 0) && (t.custName.toUpperCase().includes(search) || t.custMobile.includes(search) || t.serviceType.toUpperCase().includes(search)));
+
+            let totalPendingAmount = 0;
+            pendingList.forEach(t => {
+                totalPendingAmount += t.balanceDues;
+                tbody.innerHTML += `
+                    <tr class="border-b border-slate-200 dark:border-slate-800">
+                        <td class="p-2 font-mono text-slate-400">${t.date}</td>
+                        <td class="p-2 font-mono text-cyan-400">${t.receiptId}</td>
+                        <td class="p-2 text-left font-black text-white">${t.custName}</td>
+                        <td class="p-2 font-mono text-slate-300">${t.custMobile}</td>
+                        <td class="p-2 text-left truncate max-w-[120px]">${t.serviceType}</td>
+                        <td class="p-2 font-mono text-cyan-400">₹${t.totalCharge.toFixed(2)}</td>
+                        <td class="p-2 font-mono text-amber-400">₹${t.balanceDues.toFixed(2)}</td>
+                        <td class="p-2">
+                            <button onclick="openPartialPayModal('${t.id}')" class="btn-clean bg-emerald-600 text-white px-2 py-1 text-xs font-black">Settle Due</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('pending-modal-total-count').innerText = pendingList.length;
+            document.getElementById('pending-modal-total-amount').innerText = `₹${totalPendingAmount.toFixed(2)}`;
+        }
+
+        function openPartialPayModal(id) {
+            const txns = getStoredTransactions();
+            const t = txns.find(item => item.id === id);
+            if (!t) return;
+
+            document.getElementById('settle-due-txn-id').value = t.id;
+            document.getElementById('modal-due-display').innerText = `₹${t.balanceDues.toFixed(2)}`;
+            document.getElementById('partial-pay-amount-input').value = t.balanceDues;
+            document.getElementById('partial-pay-modal').classList.remove('hidden');
+        }
+
+        function closePartialPayModal() {
+            document.getElementById('partial-pay-modal').classList.add('hidden');
+        }
+
+        function processPartialOrExtraPayment() {
+            const id = document.getElementById('settle-due-txn-id').value;
+            const recAmt = parseFloat(document.getElementById('partial-pay-amount-input').value) || 0;
+
+            let txns = getStoredTransactions();
+            const t = txns.find(item => item.id === id);
+            if (!t) return;
+
+            t.advancePaid += recAmt;
+            t.balanceDues = Math.max(0, t.totalCharge - t.advancePaid);
+            if (t.balanceDues === 0) t.status = 'COMPLETED';
+
+            saveTransactions(txns);
+            closePartialPayModal();
+            renderLedger();
+            renderPendingTasksDirectory();
+            updatePendingWorkBadge();
+        }
+
+        function getStoredAttendance() { return JSON.parse(localStorage.getItem(ATTENDANCE_KEY) || '[]'); }
+        function saveAttendance(att) { localStorage.setItem(ATTENDANCE_KEY, JSON.stringify(att)); }
+
+        function toggleShopAttendance() {
+            const modal = document.getElementById('shop-attendance-modal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                renderAttendanceTable();
+                checkTodayAttendanceState();
+            }
+        }
+
+        function checkTodayAttendanceState() {
+            const todayStr = getTodayDateString();
+            const attList = getStoredAttendance();
+            const todayRecord = attList.find(a => a.date === todayStr);
+            const statusText = document.getElementById('attendance-status-text');
+            const btnIn = document.getElementById('btn-clock-in');
+            const btnOut = document.getElementById('btn-clock-out');
+            const navBtn = document.getElementById('attendance-nav-btn');
+
+            if (!todayRecord) {
+                statusText.innerText = "🟢 Shop is not clocked in yet today.";
+                btnIn.classList.remove('hidden');
+                btnOut.classList.add('hidden');
+                navBtn.className = "btn-clean bg-emerald-700 hover:bg-emerald-600 text-white px-2.5 py-1 text-xs shadow font-black animate-pulse";
+            } else if (todayRecord && !todayRecord.clockOut) {
+                statusText.innerText = `⏱️ Shop is open! Time: ${todayRecord.clockInTime}`;
+                btnIn.classList.add('hidden');
+                btnOut.classList.remove('hidden');
+                navBtn.className = "btn-clean bg-cyan-600 hover:bg-cyan-500 text-white px-2.5 py-1 text-xs shadow font-black animate-pulse";
+            } else {
+                statusText.innerText = `✅ Shop closed for today. Total time: ${todayRecord.totalHours} Hrs`;
+                btnIn.classList.add('hidden');
+                btnOut.classList.add('hidden');
+                navBtn.className = "btn-clean bg-slate-700 text-slate-300 px-2.5 py-1 text-xs shadow font-bold";
+            }
+        }
+
+        function clockInShop() {
+            const todayStr = getTodayDateString();
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+            let attList = getStoredAttendance();
+            if (!attList.find(a => a.date === todayStr)) {
+                attList.push({ id: 'ATT_' + Date.now(), date: todayStr, clockInTimestamp: now.getTime(), clockInTime: timeStr, clockOut: null, clockOutTime: '-', totalHours: '0.0' });
+                saveAttendance(attList);
+                checkTodayAttendanceState();
+                renderAttendanceTable();
+            }
+        }
+
+        function clockOutShop() {
+            const todayStr = getTodayDateString();
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+            let attList = getStoredAttendance();
+            const record = attList.find(a => a.date === todayStr);
+            if (record && !record.clockOut) {
+                record.clockOut = now.getTime();
+                record.clockOutTime = timeStr;
+                record.totalHours = ((record.clockOut - record.clockInTimestamp) / (1000 * 60 * 60)).toFixed(1);
+                saveAttendance(attList);
+                checkTodayAttendanceState();
+                renderAttendanceTable();
+            }
+        }
+
+        function renderAttendanceTable() {
+            const attList = getStoredAttendance().sort((a, b) => new Date(b.date) - new Date(a.date));
+            const tbody = document.getElementById('attendance-table-body');
+            tbody.innerHTML = '';
+            if (attList.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-slate-500">No records found!</td></tr>`; return; }
+            attList.forEach(a => {
+                tbody.innerHTML += `<tr class="border-b border-slate-200 dark:border-slate-800"><td class="font-mono">${a.date}</td><td class="font-mono text-emerald-600 dark:text-emerald-400">${a.clockInTime}</td><td class="font-mono text-rose-600 dark:text-rose-400">${a.clockOutTime}</td><td class="font-mono font-black text-cyan-600 dark:text-cyan-400">${a.totalHours} Hrs</td><td>${a.clockOut ? 'Completed' : 'Active'}</td></tr>`;
+            });
+        }
+
+        function openAnalyticsModal() { document.getElementById('analytics-modal').classList.remove('hidden'); renderAnalyticsCharts(); }
+        function closeAnalyticsModal() { document.getElementById('analytics-modal').classList.add('hidden'); }
+
+        function renderAnalyticsCharts() {
+            const txns = getStoredTransactions();
+            const exps = getStoredExpenses();
+            const box = document.getElementById('analytics-content-box');
+            box.innerHTML = '';
+            let totalRev = 0, totalGovt = 0, totalNetProfit = 0, totalExp = 0;
+            txns.forEach(t => { totalRev += t.totalCharge; totalGovt += t.govtFees; totalNetProfit += t.netProfit; });
+            exps.forEach(e => { totalExp += e.amount; });
+            box.innerHTML += `<div class="sub-card p-3 rounded-xl border space-y-2"><h4 class="text-xs font-black text-violet-600 dark:text-violet-400 uppercase">📈 Summary</h4><div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono text-xs"><div class="p-2 sub-card rounded border">Rev: ₹${totalRev.toFixed(0)}</div><div class="p-2 sub-card rounded border">Govt: ₹${totalGovt.toFixed(0)}</div><div class="p-2 sub-card rounded border">Exp: ₹${totalExp.toFixed(0)}</div><div class="p-2 sub-card rounded border">Net: ₹${(totalNetProfit - totalExp).toFixed(0)}</div></div></div>`;
+        }
+
+        function openQuickIncomeModal() { document.getElementById('quick-income-modal').classList.remove('hidden'); }
+        function closeQuickIncomeModal() { document.getElementById('quick-income-modal').classList.add('hidden'); }
+
+        function handleQuickIncomeSubmit(e) {
+            e.preventDefault();
+            const date = selectedFilterDate || getTodayDateString();
+            const serviceType = document.getElementById('quick-service-title').value;
+            const amount = parseFloat(document.getElementById('quick-amount').value) || 0;
+            const paymentMode = document.getElementById('quick-mode').value;
+            const now = new Date();
+            const receiptId = `QCK${date.replace(/-/g, '')}${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
+            const newTxn = { id: 'TXN_' + Date.now(), receiptId, date, timestamp: now.toLocaleDateString() + ' ' + now.toLocaleTimeString(), custName: 'QUICK SALE', custMobile: '0000000000', serviceType, totalCharge: amount, advancePaid: amount, balanceDues: 0, govtFees: 0, refundAmount: 0, netProfit: amount, paymentMode, splitCash: paymentMode.includes('CASH') ? amount : 0, splitUpi: paymentMode.includes('UPI') ? amount : 0, status: 'COMPLETED', remarks: 'QUICK SALE', taskList: [{ taskId: 'TSK_QCK', title: serviceType, price: amount, status: 'COMPLETED' }] };
+            let txns = getStoredTransactions(); txns.push(newTxn); saveTransactions(txns);
+            closeQuickIncomeModal(); document.getElementById('quick-amount').value = ''; renderLedger();
+        }
+
+        function openWalletModal() { document.getElementById('wallet-modal').classList.remove('hidden'); renderWalletTable(); }
+        function closeWalletModal() { document.getElementById('wallet-modal').classList.add('hidden'); }
+        function getStoredWallets() { return JSON.parse(localStorage.getItem(WALLET_KEY) || '[]'); }
+        function saveWallets(w) { localStorage.setItem(WALLET_KEY, JSON.stringify(w)); }
+        function handleWalletSubmit(e) {
+            e.preventDefault();
+            const wallets = getStoredWallets();
+            const name = document.getElementById('wallet-name').value.trim().toUpperCase();
+            const amt = parseFloat(document.getElementById('wallet-amt').value) || 0;
+            const existing = wallets.find(w => w.name === name);
+            if (existing) { existing.amount = amt; existing.updated = new Date().toLocaleDateString(); }
+            else { wallets.push({ id: 'WAL_' + Date.now(), name, amount: amt, updated: new Date().toLocaleDateString() }); }
+            saveWallets(wallets); document.getElementById('wallet-name').value = ''; document.getElementById('wallet-amt').value = ''; renderWalletTable();
+        }
+        function deleteWallet(id) { saveWallets(getStoredWallets().filter(w => w.id !== id)); renderWalletTable(); }
+        function renderWalletTable() {
+            const wallets = getStoredWallets();
+            const tbody = document.getElementById('wallet-table-body'); tbody.innerHTML = '';
+            if (wallets.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-slate-500">No records found!</td></tr>`; return; }
+            wallets.forEach(w => { tbody.innerHTML += `<tr class="border-b border-slate-200 dark:border-slate-800"><td class="p-2 text-blue-600 dark:text-blue-400">${w.name}</td><td class="p-2 font-mono text-emerald-600 dark:text-emerald-400">₹${w.amount.toFixed(2)}</td><td class="p-2 font-mono">${w.updated}</td><td class="p-2"><button onclick="deleteWallet('${w.id}')" class="text-rose-600 dark:text-rose-400">🗑️</button></td></tr>`; });
+        }
+
+        function openInventoryModal() { document.getElementById('inventory-modal').classList.remove('hidden'); renderInventoryTable(); }
+        function closeInventoryModal() { document.getElementById('inventory-modal').classList.add('hidden'); }
+        function getStoredInventory() { return JSON.parse(localStorage.getItem(INVENTORY_KEY) || '[]'); }
+        function saveInventory(inv) { localStorage.setItem(INVENTORY_KEY, JSON.stringify(inv)); }
+        function handleInventorySubmit(e) {
+            e.preventDefault();
+            const items = getStoredInventory();
+            const item = document.getElementById('inv-item').value.trim().toUpperCase();
+            const qty = parseInt(document.getElementById('inv-qty').value) || 0;
+            const price = parseFloat(document.getElementById('inv-price').value) || 0;
+            const existing = items.find(i => i.item === item);
+            if (existing) { existing.qty += qty; existing.price = price; } else { items.push({ id: 'INV_' + Date.now(), item, qty, price }); }
+            saveInventory(items); document.getElementById('inv-item').value = ''; document.getElementById('inv-qty').value = ''; document.getElementById('inv-price').value = ''; renderInventoryTable();
+        }
+        function deleteInventoryItem(id) { saveInventory(getStoredInventory().filter(i => i.id !== id)); renderInventoryTable(); }
+        function renderInventoryTable() {
+            const items = getStoredInventory();
+            const tbody = document.getElementById('inventory-table-body'); tbody.innerHTML = '';
+            if (items.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-slate-500">No records found!</td></tr>`; return; }
+            items.forEach(i => { tbody.innerHTML += `<tr class="border-b border-slate-200 dark:border-slate-800"><td class="p-2 text-purple-600 dark:text-purple-400">${i.item}</td><td class="p-2 font-mono">${i.qty}</td><td class="p-2 font-mono">₹${i.price.toFixed(2)}</td><td class="p-2 font-mono text-emerald-600 dark:text-emerald-400">₹${(i.qty * i.price).toFixed(2)}</td><td class="p-2"><button onclick="deleteInventoryItem('${i.id}')" class="text-rose-600 dark:text-rose-400">🗑️</button></td></tr>`; });
+        }
+
+        function openCashTallyModal() {
+            const selDate = selectedFilterDate || getTodayDateString();
+            const txns = getStoredTransactions().filter(t => t.date === selDate);
+            const exps = getStoredExpenses().filter(e => e.date === selDate);
+            let sysCash = 0, sysUpi = 0, totalExp = 0;
+            txns.forEach(t => {
+                if (t.paymentMode.includes('CASH')) sysCash += t.advancePaid;
+                else if (t.paymentMode.includes('UPI')) sysUpi += t.advancePaid;
+                else if (t.paymentMode.includes('SPLIT')) { sysCash += (t.splitCash || 0); sysUpi += (t.splitUpi || 0); }
+            });
+            exps.forEach(e => totalExp += e.amount);
+            const netExpected = sysCash - totalExp;
+            document.getElementById('tally-system-cash').innerText = `₹${netExpected.toFixed(2)}`;
+            document.getElementById('tally-system-upi').innerText = `₹${sysUpi.toFixed(2)}`;
+            document.getElementById('tally-expenses').innerText = `₹${totalExp.toFixed(2)}`;
+            document.getElementById('tally-physical-cash').value = netExpected.toFixed(2);
+            calculateCashDifference();
+            document.getElementById('cash-tally-modal').classList.remove('hidden');
+        }
+        function closeCashTallyModal() { document.getElementById('cash-tally-modal').classList.add('hidden'); }
+        function calculateCashDifference() {
+            const selDate = selectedFilterDate || getTodayDateString();
+            const txns = getStoredTransactions().filter(t => t.date === selDate);
+            const exps = getStoredExpenses().filter(e => e.date === selDate);
+            let sysCash = 0, totalExp = 0;
+            txns.forEach(t => {
+                if (t.paymentMode.includes('CASH')) sysCash += t.advancePaid;
+                else if (t.paymentMode.includes('SPLIT')) sysCash += (t.splitCash || 0);
+            });
+            exps.forEach(e => totalExp += e.amount);
+            const expected = sysCash - totalExp;
+            const physical = parseFloat(document.getElementById('tally-physical-cash').value) || 0;
+            const diff = physical - expected;
+            const box = document.getElementById('tally-difference-box');
+            if (diff === 0) { box.className = "p-2.5 rounded-xl text-center font-bold bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500"; box.innerText = `✨ Perfect Match!`; }
+            else if (diff > 0) { box.className = "p-2.5 rounded-xl text-center font-bold bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-500"; box.innerText = `📈 Surplus: ₹${diff.toFixed(2)}`; }
+            else { box.className = "p-2.5 rounded-xl text-center font-bold bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-500"; box.innerText = `📉 Shortage: ₹${Math.abs(diff).toFixed(2)}`; }
+        }
+
+        function openExpensesModal() { document.getElementById('expenses-modal').classList.remove('hidden'); renderExpensesTable(); }
+        function closeExpensesModal() { document.getElementById('expenses-modal').classList.add('hidden'); }
+        function handleExpenseSubmit(e) {
+            e.preventDefault();
+            const exps = getStoredExpenses();
+            const date = document.getElementById('exp-date').value || getTodayDateString();
+            const category = document.getElementById('exp-category').value;
+            const amount = parseFloat(document.getElementById('exp-amount').value) || 0;
+            const note = document.getElementById('exp-note').value.trim().toUpperCase();
+            exps.push({ id: 'EXP_' + Date.now(), date, category, amount, note });
+            saveExpenses(exps);
+            document.getElementById('exp-amount').value = ''; document.getElementById('exp-note').value = '';
+            renderExpensesTable(); renderLedger();
+        }
+        function deleteExpense(id) { saveExpenses(getStoredExpenses().filter(e => e.id !== id)); renderExpensesTable(); renderLedger(); }
+        function renderExpensesTable() {
+            const exps = getStoredExpenses();
+            const selDate = selectedFilterDate || getTodayDateString();
+            const tbody = document.getElementById('expense-table-body'); tbody.innerHTML = '';
+            let dayTotal = 0, monthTotal = 0;
+            const curMonth = selDate.substring(0, 7);
+            exps.forEach(e => {
+                if (e.date === selDate) dayTotal += e.amount;
+                if (e.date.startsWith(curMonth)) monthTotal += e.amount;
+                tbody.innerHTML += `<tr class="border-b border-slate-200 dark:border-slate-800"><td class="p-2 font-mono">${e.date}</td><td class="p-2 text-amber-600 dark:text-amber-400 font-black">${e.category}</td><td class="p-2 text-left truncate max-w-[100px]">${e.note || '-'}</td><td class="p-2 font-mono text-rose-600 dark:text-rose-400 font-black">₹${e.amount.toFixed(2)}</td><td class="p-2"><button onclick="deleteExpense('${e.id}')" class="text-rose-600 dark:text-rose-400">🗑️</button></td></tr>`;
+            });
+            document.getElementById('exp-day-total').innerText = `₹${dayTotal.toFixed(2)}`;
+            document.getElementById('exp-month-total').innerText = `₹${monthTotal.toFixed(2)}`;
+        }
+
+        function openCustomerDuesModal() { renderCustomerDuesDirectory(); document.getElementById('customer-dues-modal').classList.remove('hidden'); }
+        function closeCustomerDuesModal() { document.getElementById('customer-dues-modal').classList.add('hidden'); }
+        function openCustomerDuesModalWithMobile() {
+            openCustomerDuesModal();
+            const mob = document.getElementById('cust-mobile').value.trim();
+            if (mob) {
+                document.getElementById('dues-dir-search').value = mob;
+                renderCustomerDuesDirectory();
+            }
+        }
+        function renderCustomerDuesDirectory() {
+            const txns = getStoredTransactions();
+            const search = document.getElementById('dues-dir-search').value.toUpperCase();
+            const tbody = document.getElementById('dues-directory-table-body');
+            tbody.innerHTML = '';
+            const custMap = new Map();
+            txns.forEach(t => {
+                if (t.balanceDues > 0) {
+                    const key = t.custMobile || t.custName;
+                    if (!custMap.has(key)) custMap.set(key, { name: t.custName, mobile: t.custMobile, due: 0 });
+                    custMap.get(key).due += t.balanceDues;
+                }
+            });
+            let totalDuesSum = 0;
+            custMap.forEach(c => {
+                if (c.name.toUpperCase().includes(search) || c.mobile.includes(search)) {
+                    totalDuesSum += c.due;
+                    tbody.innerHTML += `<tr class="border-b border-slate-200 dark:border-slate-800"><td class="p-2 text-left font-black text-white">${c.name}</td><td class="p-2 font-mono text-cyan-400">${c.mobile}</td><td class="p-2 font-mono text-amber-400">₹${c.due.toFixed(2)}</td><td class="p-2"><a href="https://wa.me/91${c.mobile}?text=${encodeURIComponent(`Hello ${c.name}, your pending balance at AAFIYA MONEY TRANSFER is ₹${c.due.toFixed(2)}. Please clear it.`)}" target="_blank" class="btn-clean bg-emerald-600 text-white px-2 py-1 text-xs">💬 WhatsApp</a></td><td class="p-2"><button onclick="viewCustomerDuesHistory('${c.mobile}', '${c.name}')" class="btn-clean bg-blue-600 text-white px-2 py-1 text-xs">📜 History</button></td></tr>`;
+                }
+            });
+            document.getElementById('dues-dir-total').innerText = `₹${totalDuesSum.toFixed(2)}`;
+        }
+
+        function viewCustomerDuesHistory(mobile, name) {
+            const txns = getStoredTransactions();
+            const historyList = txns.filter(t => (mobile && t.custMobile === mobile) || (name && t.custName.toUpperCase() === name.toUpperCase()));
+            const tbody = document.getElementById('dues-history-table-body');
+            tbody.innerHTML = '';
+            document.getElementById('dues-history-title').innerText = `📜 History for ${name} (${mobile})`;
+            historyList.forEach(t => {
+                tbody.innerHTML += `<tr class="border-b border-slate-200 dark:border-slate-800"><td class="p-1.5 font-mono text-slate-400">${t.date}</td><td class="p-1.5 font-mono text-cyan-400">${t.receiptId}</td><td class="p-1.5 text-left truncate max-w-[100px]">${t.serviceType}</td><td class="p-1.5 font-mono">₹${t.totalCharge.toFixed(2)}</td><td class="p-1.5 font-mono text-emerald-400">₹${t.advancePaid.toFixed(2)}</td><td class="p-1.5 font-mono text-amber-400 font-black">₹${t.balanceDues.toFixed(2)}</td><td class="p-1.5">${t.balanceDues > 0 ? `<button onclick="openPartialPayModal('${t.id}')" class="btn-clean bg-emerald-600 text-white px-1.5 py-0.5 text-[10px]">Settle</button>` : 'OK'}</td></tr>`;
+            });
+            document.getElementById('dues-customer-history-box').classList.remove('hidden');
+        }
+        function hideCustomerHistoryBox() { document.getElementById('dues-customer-history-box').classList.add('hidden'); }
+
+        function openSettingsModal() { document.getElementById('settings-modal').classList.remove('hidden'); }
+        function closeSettingsModal() { document.getElementById('settings-modal').classList.add('hidden'); }
+        function loadAppSettings() {
+            const set = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+            if (set.bgColor) document.getElementById('setting-bg-color').value = set.bgColor;
+            if (set.fontColor) document.getElementById('setting-font-color').value = set.fontColor;
+        }
+        function saveAppSettings() {
+            const set = {
+                bgColor: document.getElementById('setting-bg-color').value,
+                fontColor: document.getElementById('setting-font-color').value
+            };
+            localStorage.setItem(SETTINGS_KEY, JSON.stringify(set));
+            closeSettingsModal();
+        }
+
+        function backupSystemJSON() {
+            const data = {
+                ledger: getStoredTransactions(),
+                expenses: getStoredExpenses(),
+                wallets: getStoredWallets(),
+                inventory: getStoredInventory(),
+                attendance: getStoredAttendance(),
+                services: getAllServices()
+            };
+            const jsonStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Aafiya_Enterprise_Backup_${getTodayDateString()}.json`;
+            a.click();
+        }
+
+        function restoreSystemJSON(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const data = JSON.parse(evt.target.result);
+                    if (data.ledger) localStorage.setItem(STORAGE_KEY, JSON.stringify(data.ledger));
+                    if (data.expenses) localStorage.setItem(EXPENSES_KEY, JSON.stringify(data.expenses));
+                    if (data.wallets) localStorage.setItem(WALLET_KEY, JSON.stringify(data.wallets));
+                    if (data.inventory) localStorage.setItem(INVENTORY_KEY, JSON.stringify(data.inventory));
+                    if (data.attendance) localStorage.setItem(ATTENDANCE_KEY, JSON.stringify(data.attendance));
+                    if (data.services) localStorage.setItem(SERVICES_KEY, JSON.stringify(data.services));
+                    alert('System restored successfully!');
+                    location.reload();
+                } catch { alert('Invalid backup file!'); }
+            };
+            reader.readAsText(file);
+        }
+
+        function exportCSV() {
+            const txns = getFilteredTransactions();
+            if (txns.length === 0) { alert('No data to export!'); return; }
+            let csv = 'Receipt ID,Date,Name,Mobile,Service,Total Bill,Govt Fee,Dues,Net Profit,Mode,Status\n';
+            txns.forEach(t => {
+                csv += `"${t.receiptId}","${t.date}","${t.custName}","${t.custMobile}","${t.serviceType}",${t.totalCharge},${t.govtFees},${t.balanceDues},${t.netProfit},"${t.paymentMode}","${t.status}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Aafiya_Ledger_${selectedFilterDate}.csv`;
+            a.click();
+        }
+    </script>
+</body>
+</html>
